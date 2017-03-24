@@ -1,4 +1,4 @@
-# Action creator (`action-creator`)
+# Async action creator (`async-action-creator`)
 [![Build Status](https://travis-ci.org/goncy/action-creator.svg?branch=master)](https://travis-ci.org/goncy/action-creator)
 [![Coverage Status](https://coveralls.io/repos/github/goncy/action-creator/badge.svg?branch=master)](https://coveralls.io/github/goncy/action-creator?branch=master)
 
@@ -12,11 +12,11 @@ Action creator is a library that helps with handling async actions on redux or s
 ## How
 ```js
 // Creating an action
-import {makeAction} from 'action-creator'
+import {makeAction} from 'async-action-creator'
 const myAction = makeAction('MY_ACTION')
 
 // Mounting the reducer
-import {reducer as async} from 'action-creator'
+import {reducer as async} from 'async-action-creator'
 const rootReducer = combineReducers({
     // All of your reducers
     async // Naming is important
@@ -72,9 +72,9 @@ Sometimes you need an action status and you had to create a new reducer just for
 
 ## Installation
 ```sh
-yarn add action-creator
+yarn add async-action-creator
 // or
-npm install --save action-creator
+npm install --save async-action-creator
 ```
 
 

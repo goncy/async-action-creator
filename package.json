@@ -2,9 +2,9 @@
   "name": "async-action-creator",
   "version": "0.0.2",
   "description": "Async actions with steroids creator for Redux or whatever you want",
-  "main": "dist/action-creator.js",
-  "module": "dist/action-creator.mjs",
-  "jsnext:main": "dist/action-creator.mjs",
+  "main": "dist/async-action-creator.js",
+  "module": "dist/async-action-creator.mjs",
+  "jsnext:main": "dist/async-action-creator.mjs",
   "scripts": {
     "test": "NODE_ENV=testing mocha --compilers js:babel-register --reporter spec",
     "build": "rollup -c",
