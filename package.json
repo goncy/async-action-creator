@@ -1,0 +1,41 @@
+{
+  "name": "async-action-creator",
+  "version": "0.0.1",
+  "description": "Async actions with steroids creator for Redux or whatever you want",
+  "main": "dist/action-creator.js",
+  "module": "dist/action-creator.mjs",
+  "jsnext:main": "dist/action-creator.mjs",
+  "scripts": {
+    "test": "NODE_ENV=testing mocha --compilers js:babel-register --reporter spec",
+    "build": "rollup -c",
+    "cover": "NODE_ENV=testing istanbul cover node_modules/mocha/bin/_mocha -- --compilers js:babel-core/register --colors --reporter dot test/"
+  },
+  "engines": {
+    "node": ">=4.2.4"
+  },
+  "keywords": [
+    "action",
+    "action",
+    "creator",
+    "react",
+    "redux",
+    "async"
+  ],
+  "author": "goncy",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-preset-latest": "^6.24.0",
+    "babel-register": "^6.24.0",
+    "babelrc-rollup": "^3.0.0",
+    "chai": "^3.5.0",
+    "coveralls": "^2.12.0",
+    "istanbul": "1.1.0-alpha.1",
+    "mocha": "^3.2.0",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.7.1",
+    "rollup-plugin-flow": "^1.1.1"
+  }
+}
