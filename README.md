@@ -91,7 +91,7 @@ Simply create a pull request :)
 
 
 ## Thanks
-This project is based on the idea of [make-action-creator](https://github.com/ajchambeaud/make-action-creator) by [@ajchambeaud](https://github.com/ajchambeaud), and the `getStatus` and `getError` implementations to the same library from [@pablen](https://github.com/pablen)
+This project is based on the idea of [make-action-creator](https://github.com/ajchambeaud/make-action-creator) by [@ajchambeaud](https://github.com/ajchambeaud), and the `getStatus` and `getError` implementations to the same library from [@pablen](https://github.com/pablen).
 
 
 ## License
