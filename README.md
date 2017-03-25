@@ -1,6 +1,6 @@
 # Async action creator (`async-action-creator`)
-[![Build Status](https://travis-ci.org/goncy/action-creator.svg?branch=master)](https://travis-ci.org/goncy/action-creator)
-[![Coverage Status](https://coveralls.io/repos/github/goncy/action-creator/badge.svg?branch=master)](https://coveralls.io/github/goncy/action-creator?branch=master)
+[![Build Status](https://travis-ci.org/goncy/action-creator.svg?branch=master)](https://travis-ci.org/goncy/async-action-creator)
+[![Coverage Status](https://coveralls.io/repos/github/goncy/async-action-creator/badge.svg?branch=master)](https://coveralls.io/github/goncy/action-creator?branch=master)
 
 Async actions with steroids creator for Redux or whatever you want.
 
