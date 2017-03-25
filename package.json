@@ -5,6 +5,11 @@
   "main": "dist/async-action-creator.js",
   "module": "dist/async-action-creator.mjs",
   "jsnext:main": "dist/async-action-creator.mjs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/goncy/async-action-creator.git"
+  },
+  "homepage": "https://github.com/goncy/async-action-creator",
   "scripts": {
     "test": "NODE_ENV=testing mocha --compilers js:babel-register --reporter spec",
     "build": "rollup -c",
