@@ -24,10 +24,10 @@ const rootReducer = combineReducers({
 
 // Dispatching async actions
 const mapDispatchToProps = {
-    run: myAction.run, // myAction.run({foo: 'bar'}) -> {type: MY_ACTION, payload: {foo: 'bar'}}
-    start: myAction.start, // myAction.start({foo: 'bar'}) -> {type: MY_ACTION_START, payload: {foo: 'bar'}}
-    success: myAction.success, // myAction.success({foo: 'bar'}) -> {type: MY_ACTION_SUCCESS, payload: {foo: 'bar'}}
-    failure: myAction.failure // myAction.failure({foo: 'bar'}) -> {type: MY_ACTION_FAILURE, payload: {foo: 'bar'}}
+    run: myAction.run, // run({foo: 'bar'}) -> {type: MY_ACTION, payload: {foo: 'bar'}}
+    start: myAction.start, // start({foo: 'bar'}) -> {type: MY_ACTION_START, payload: {foo: 'bar'}}
+    success: myAction.success, // success({foo: 'bar'}) -> {type: MY_ACTION_SUCCESS, payload: {foo: 'bar'}}
+    failure: myAction.failure // failure({foo: 'bar'}) -> {type: MY_ACTION_FAILURE, payload: {foo: 'bar'}}
 }
 
 // Getting action status, error and response
