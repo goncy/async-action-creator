@@ -50,7 +50,7 @@ switch (type) {
             ...state,
             hello: 'cat'
         }
-    case myAction.SUCCESS: // => 'MY_ACTIO_SUCCESS'
+    case myAction.SUCCESS: // => 'MY_ACTION_SUCCESS'
         return {
             ...state,
             hello: 'dog'
