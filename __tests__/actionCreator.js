@@ -1,4 +1,3 @@
-import {expect} from 'chai'
 import {makeAction} from '../src'
 
 const actionCreatorFunctionProperties = [
@@ -126,35 +125,35 @@ const actionCreatorStringProperties = [
 ]
 
 describe('Action Creator', function () {
-  it('should return an object', function () {
-    const actual = makeAction('MY_ACTION')
+  test('should return an object', function () {
+    const actual = typeof makeAction('MY_ACTION')
     const expected = 'object'
 
-    expect(actual).to.be.a(expected)
+    expect(actual).toBe(expected)
   })
   
   describe('Function properties', function () {
     const myAction = makeAction('MY_ACTION')
     actionCreatorFunctionProperties.forEach(({name, result, payload}) => {
-      it(`should have a ${name} property`, function () {
+      test(`should have a ${name} property`, function () {
         const actual = myAction.hasOwnProperty(name)
         const expected = true
 
-        expect(actual).to.deep.equal(expected)
+        expect(actual).toEqual(expected)
       })
 
-      it(`${name} property should be a function`, function () {
-        const actual = myAction[name]
+      test(`${name} property should be a function`, function () {
+        const actual = typeof myAction[name]
         const expected = 'function'
 
-        expect(actual).to.be.a(expected)
+        expect(actual).toBe(expected)
       })
 
-      it(`${name} property should return correctly`, function () {
+      test(`${name} property should return correctly`, function () {
         const actual = myAction[name](payload)
         const expected = result
 
-        expect(actual).to.deep.equal(expected)
+        expect(actual).toEqual(expected)
       })
     })
   })
@@ -162,18 +161,18 @@ describe('Action Creator', function () {
   describe('String properties', function () {
     const myAction = makeAction('MY_ACTION')
     actionCreatorStringProperties.forEach(property => {
-      it(`should have a ${property} property`, function () {
+      test(`should have a ${property} property`, function () {
         const actual = myAction.hasOwnProperty(property)
         const expected = true
 
-        expect(actual).to.deep.equal(expected)
+        expect(actual).toEqual(expected)
       })
 
-      it(`${property} property should be a string`, function () {
-        const actual = myAction[property]
+      test(`${property} property should be a string`, function () {
+        const actual = typeof myAction[property]
         const expected = 'string'
 
-        expect(actual).to.be.a(expected)
+        expect(actual).toBe(expected)
       })
     })
   })

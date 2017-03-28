@@ -1,4 +1,3 @@
-import {expect} from 'chai'
 import {reducer} from '../src'
 
 const tests = [
@@ -194,8 +193,8 @@ const tests = [
 // Iterate over tests
 describe('Reducer', function () {
   tests.forEach(test => {
-    it(test.name, function () {
-      expect(reducer(test.initialState, test.action)).to.deep.equal(test.nextState)
+    test(test.name, function () {
+      expect(reducer(test.initialState, test.action)).toEqual(test.nextState)
     })
   })
 })

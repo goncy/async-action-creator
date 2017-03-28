@@ -2,7 +2,7 @@
 [![Build Status](https://travis-ci.org/goncy/async-action-creator.svg?branch=master)](https://travis-ci.org/goncy/async-action-creator)
 [![Coverage Status](https://coveralls.io/repos/github/goncy/async-action-creator/badge.svg?branch=master)](https://coveralls.io/github/goncy/action-creator?branch=master)
 
-Async actions with steroids creator for Redux or whatever you want.
+Async actions with steroids for Redux or whatever you want.
 
 
 ## What
@@ -80,9 +80,9 @@ npm install --save async-action-creator
 
 ## Tests
 ```sh
-// mocha tests
+// jest tests
 yarn test
-// istanbul coverage
+// jest coverage
 yarn cover
 ```
 

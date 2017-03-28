@@ -1,4 +1,3 @@
-import {expect} from 'chai'
 import {getStatus, getError, getResponse} from '../src/utils'
 
 const status = [
@@ -53,30 +52,30 @@ const response = [
 describe('Utils', function () {
   describe('getStatus', function () {
     status.forEach(({payload, result}) => {
-      it(`should get the status correctly when payload is ${payload}`, function () {
+      test(`should get the status correctly when payload is ${payload}`, function () {
         const actual = getStatus(payload)
         const expected = result
-        expect(actual).to.deep.equal(expected)
+        expect(actual).toEqual(expected)
       })
     })
   })
 
   describe('getError', function () {
     error.forEach(({payload, result}) => {
-      it(`should get the status correctly when payload is ${payload}`, function () {
+      test(`should get the status correctly when payload is ${payload}`, function () {
         const actual = getError({payload})
         const expected = result
-        expect(actual).to.deep.equal(expected)
+        expect(actual).toEqual(expected)
       })
     })
   })
 
   describe('getResponse', function () {
     response.forEach(({payload, result}) => {
-      it(`should get the status correctly when payload is ${payload}`, function () {
+      test(`should get the status correctly when payload is ${payload}`, function () {
         const actual = getResponse({payload})
         const expected = result
-        expect(actual).to.deep.equal(expected)
+        expect(actual).toEqual(expected)
       })
     })
   })
