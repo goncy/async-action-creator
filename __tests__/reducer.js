@@ -192,9 +192,9 @@ const tests = [
 
 // Iterate over tests
 describe('Reducer', function () {
-  tests.forEach(test => {
-    test(test.name, function () {
-      expect(reducer(test.initialState, test.action)).toEqual(test.nextState)
+  tests.forEach(item => {
+    test(item.name, function () {
+      expect(reducer(item.initialState, item.action)).toEqual(item.nextState)
     })
   })
 })
