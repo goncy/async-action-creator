@@ -1,6 +1,6 @@
 # Async action creator (`async-action-creator`)
 [![Build Status](https://travis-ci.org/goncy/async-action-creator.svg?branch=master)](https://travis-ci.org/goncy/async-action-creator)
-[![Coverage Status](https://coveralls.io/repos/github/goncy/async-action-creator/badge.svg?branch=master)](https://coveralls.io/github/goncy/action-creator?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/goncy/async-action-creator/badge.svg?branch=master)](https://coveralls.io/github/goncy/async-action-creator?branch=master)
 
 Async actions with steroids for Redux or whatever you want.
 
@@ -50,7 +50,7 @@ switch (type) {
             ...state,
             hello: 'cat'
         }
-    case myAction.SUCCESS: // => 'MY_ACTIO_SUCCESS'
+    case myAction.SUCCESS: // => 'MY_ACTION_SUCCESS'
         return {
             ...state,
             hello: 'dog'
