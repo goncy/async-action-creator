@@ -3,8 +3,6 @@
   "version": "0.0.9",
   "description": "Async actions with steroids creator for Redux or whatever you want",
   "main": "dist/async-action-creator.js",
-  "module": "dist/async-action-creator.mjs",
-  "jsnext:main": "dist/async-action-creator.mjs",
   "repository": {
     "type": "git",
     "url": "https://github.com/goncy/async-action-creator.git"
@@ -12,14 +10,13 @@
   "homepage": "https://github.com/goncy/async-action-creator",
   "scripts": {
     "test": "NODE_ENV=testing jest",
-    "build": "rollup -c",
+    "build": "webpack",
     "cover": "yarn test -- --coverage"
   },
   "engines": {
     "node": ">=4.2.4"
   },
   "keywords": [
-    "action",
     "action",
     "creator",
     "react",
@@ -31,18 +28,16 @@
   "devDependencies": {
     "babel-core": "^6.24.0",
     "babel-jest": "^19.0.0",
+    "babel-loader": "^7.1.1",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-latest": "^6.24.0",
     "babelrc-rollup": "^3.0.0",
     "coveralls": "^2.12.0",
     "jest-cli": "^19.0.2",
-    "rollup": "^0.41.6",
-    "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-flow": "^1.1.1"
+    "webpack": "^3.4.1"
   },
   "jest": {
     "testEnvironment": "node"
-  },
-  "dependencies": {}
+  }
 }
