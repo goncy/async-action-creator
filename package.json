@@ -27,17 +27,29 @@
   "license": "MIT",
   "devDependencies": {
     "babel-core": "^6.24.0",
-    "babel-jest": "^19.0.0",
+    "babel-eslint": "^8.0.3",
+    "babel-jest": "^21.2.0",
     "babel-loader": "^7.1.1",
-    "babel-plugin-external-helpers": "^6.22.0",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-preset-latest": "^6.24.0",
-    "babelrc-rollup": "^3.0.0",
+    "babel-preset-env": "^1.6.1",
     "coveralls": "^2.12.0",
-    "jest-cli": "^19.0.2",
+    "eslint": "^4.13.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-plugin-flowtype": "^2.40.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-prettier": "^2.3.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "jest": "^21.2.1",
+    "prettier": "^1.9.2",
     "webpack": "^3.4.1"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "verbose": true,
+    "collectCoverage": true,
+    "notify": true
   }
 }

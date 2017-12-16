@@ -16,10 +16,10 @@ import {makeAction} from 'async-action-creator'
 const myAction = makeAction('MY_ACTION')
 
 // Mounting the reducer
-import {reducer as async} from 'async-action-creator'
+import {REDUCER_NAME, reducer} from 'async-action-creator'
 const rootReducer = combineReducers({
     // All of your reducers
-    async // Naming is important
+    [REDUCER_NAME]: reducer // Naming is important
 })
 
 // Dispatching async actions

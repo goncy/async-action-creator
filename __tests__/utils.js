@@ -1,31 +1,35 @@
-import {getStatus, getError, getResponse} from '../src/utils'
+import { getStatus, getError, getResponse } from "../src/utils"
 
 const status = [
   {
-    payload: 'START',
-    result: 'pending'
+    payload: "STARTED",
+    result: "pending"
   },
   {
-    payload: 'SUCCESS',
-    result: 'success'
+    payload: "CANCELED",
+    result: "canceled"
   },
   {
-    payload: 'FAILURE',
-    result: 'failure'
+    payload: "RESOLVED",
+    result: "resolved"
+  },
+  {
+    payload: "REJECTED",
+    result: "rejected"
   },
   {
     payload: undefined,
-    result: 'init'
+    result: "init"
   }
 ]
 
 const error = [
   {
     payload: {
-      foo: 'this is an error'
+      foo: "this is an error"
     },
     result: {
-      foo: 'this is an error'
+      foo: "this is an error"
     }
   },
   {
@@ -37,10 +41,10 @@ const error = [
 const response = [
   {
     payload: {
-      foo: 'bar'
+      foo: "bar"
     },
     result: {
-      foo: 'bar'
+      foo: "bar"
     }
   },
   {
@@ -49,10 +53,10 @@ const response = [
   }
 ]
 
-describe('Utils', function () {
-  describe('getStatus', function () {
-    status.forEach(({payload, result}) => {
-      test(`should get the status correctly when payload is ${payload}`, function () {
+describe("Utils", function() {
+  describe("getStatus", function() {
+    status.forEach(({ payload, result }) => {
+      test(`should get the status correctly when payload is ${payload}`, function() {
         const actual = getStatus(payload)
         const expected = result
         expect(actual).toEqual(expected)
@@ -60,20 +64,20 @@ describe('Utils', function () {
     })
   })
 
-  describe('getError', function () {
-    error.forEach(({payload, result}) => {
-      test(`should get the status correctly when payload is ${payload}`, function () {
-        const actual = getError({payload})
+  describe("getError", function() {
+    error.forEach(({ payload, result }) => {
+      test(`should get the status correctly when payload is ${payload}`, function() {
+        const actual = getError({ payload })
         const expected = result
         expect(actual).toEqual(expected)
       })
     })
   })
 
-  describe('getResponse', function () {
-    response.forEach(({payload, result}) => {
-      test(`should get the status correctly when payload is ${payload}`, function () {
-        const actual = getResponse({payload})
+  describe("getResponse", function() {
+    response.forEach(({ payload, result }) => {
+      test(`should get the status correctly when payload is ${payload}`, function() {
+        const actual = getResponse({ payload })
         const expected = result
         expect(actual).toEqual(expected)
       })

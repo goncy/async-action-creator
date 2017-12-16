@@ -1,155 +1,170 @@
-import {makeAction} from '../src'
+import { makeAction } from "../src"
+
+import { REDUCER_NAME } from "../src/constants"
 
 const actionCreatorFunctionProperties = [
   {
-    name: 'run',
+    name: "run",
     payload: {
-      foo: 'bar'
+      foo: "bar"
     },
     result: {
-      type: 'MY_ACTION',
+      type: "MY_ACTION",
       payload: {
-        foo: 'bar'
+        foo: "bar"
       }
     }
   },
   {
-    name: 'start',
+    name: "start",
     payload: {
-      foo: 'bar'
+      foo: "bar"
     },
     result: {
-      type: 'MY_ACTION_START',
+      type: "MY_ACTION_STARTED",
       payload: {
-        foo: 'bar'
+        foo: "bar"
       }
     }
   },
   {
-    name: 'success',
+    name: "cancel",
     payload: {
-      foo: 'bar'
+      foo: "bar"
     },
     result: {
-      type: 'MY_ACTION_SUCCESS',
+      type: "MY_ACTION_CANCELED",
       payload: {
-        foo: 'bar'
+        foo: "bar"
       }
     }
   },
   {
-    name: 'failure',
+    name: "resolve",
     payload: {
-      foo: 'bar'
+      foo: "bar"
     },
     result: {
-      type: 'MY_ACTION_FAILURE',
+      type: "MY_ACTION_RESOLVED",
       payload: {
-        foo: 'bar'
+        foo: "bar"
       }
     }
   },
   {
-    name: 'getStatus',
+    name: "reject",
     payload: {
-      async: {
-        'MY_ACTION': {
-          status: 'pending'
+      foo: "bar"
+    },
+    result: {
+      type: "MY_ACTION_REJECTED",
+      payload: {
+        foo: "bar"
+      }
+    }
+  },
+  {
+    name: "getStatus",
+    payload: {
+      [REDUCER_NAME]: {
+        MY_ACTION: {
+          status: "pending"
         }
       }
     },
-    result: 'pending'
+    result: "pending"
   },
   {
-    name: 'getStatus',
+    name: "getStatus",
     payload: {
-      async: {}
+      [REDUCER_NAME]: {}
     },
-    result: 'init'
+    result: "init"
   },
   {
-    name: 'getError',
+    name: "getError",
     payload: {
-      async: {
-        'MY_ACTION': {
-          error: 'this is an error'
+      [REDUCER_NAME]: {
+        MY_ACTION: {
+          error: "this is an error"
         }
       }
     },
-    result: 'this is an error'
+    result: "this is an error"
   },
   {
-    name: 'getError',
+    name: "getError",
     payload: {
-      async: {}
+      [REDUCER_NAME]: {}
     },
     result: null
   },
   {
-    name: 'getResponse',
+    name: "getResponse",
     payload: {
-      async: {
-        'MY_ACTION': {
+      [REDUCER_NAME]: {
+        MY_ACTION: {
           response: {
-            foo: 'bar'
+            foo: "bar"
           }
         }
       }
     },
     result: {
-      foo: 'bar'
+      foo: "bar"
     }
   },
   {
-    name: 'getResponse',
+    name: "getResponse",
     payload: {
-      async: {}
+      [REDUCER_NAME]: {}
     },
     result: null
   },
   {
-    name: 'clearStatus',
-    payload: ({async: {}}),
+    name: "clearStatus",
+    payload: { [REDUCER_NAME]: {} },
     result: {
-      type: '@@actionCreator/CLEAR_STATUS',
-      namespace: 'MY_ACTION'
+      type: "@@actionCreator/CLEAR_STATUS",
+      namespace: "MY_ACTION"
     }
   }
 ]
 
 const actionCreatorStringProperties = [
-  'type',
-  'START',
-  'SUCCESS',
-  'FAILURE'
+  "TYPE",
+  "CANCELED",
+  "STARTED",
+  "RESOLVED",
+  "REJECTED"
 ]
 
-describe('Action Creator', function () {
-  test('should return an object', function () {
-    const actual = typeof makeAction('MY_ACTION')
-    const expected = 'object'
+describe("Action Creator", function() {
+  test("should return an object", function() {
+    const actual = typeof makeAction("MY_ACTION")
+    const expected = "object"
 
     expect(actual).toBe(expected)
   })
-  
-  describe('Function properties', function () {
-    const myAction = makeAction('MY_ACTION')
-    actionCreatorFunctionProperties.forEach(({name, result, payload}) => {
-      test(`should have a ${name} property`, function () {
+
+  describe("Function properties", function() {
+    const myAction = makeAction("MY_ACTION")
+    actionCreatorFunctionProperties.forEach(({ name, result, payload }) => {
+      test(`should have a ${name} property`, function() {
         const actual = myAction.hasOwnProperty(name)
         const expected = true
 
         expect(actual).toEqual(expected)
       })
 
-      test(`${name} property should be a function`, function () {
+      test(`${name} property should be a function`, function() {
         const actual = typeof myAction[name]
-        const expected = 'function'
+        const expected = "function"
 
         expect(actual).toBe(expected)
       })
 
-      test(`${name} property should return correctly`, function () {
+      test(`${name} property should return correctly`, function() {
         const actual = myAction[name](payload)
         const expected = result
 
@@ -158,19 +173,19 @@ describe('Action Creator', function () {
     })
   })
 
-  describe('String properties', function () {
-    const myAction = makeAction('MY_ACTION')
+  describe("String properties", function() {
+    const myAction = makeAction("MY_ACTION")
     actionCreatorStringProperties.forEach(property => {
-      test(`should have a ${property} property`, function () {
+      test(`should have a ${property} property`, function() {
         const actual = myAction.hasOwnProperty(property)
         const expected = true
 
         expect(actual).toEqual(expected)
       })
 
-      test(`${property} property should be a string`, function () {
+      test(`${property} property should be a string`, function() {
         const actual = typeof myAction[property]
-        const expected = 'string'
+        const expected = "string"
 
         expect(actual).toBe(expected)
       })

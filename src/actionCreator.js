@@ -1,24 +1,28 @@
 // @flow
+import { REDUCER_NAME } from "./constants"
 
-import type {asyncReducerType} from './reducer'
+import type { asyncReducerType } from "./types"
 
 type asyncState = {
   [name: string]: ?any,
-  async: asyncReducerType
+  [REDUCER_NAME]: asyncReducerType
 }
 
 type asyncAction = {
-  type: string,
-  start: (payload: ?any) => {type: string, payload: any},
-  success: (payload: ?any) => {type: string, payload: any},
-  failure: (payload: ?any) => {type: string, payload: any},
+  run: (payload: ?any) => { type: string, payload: any },
+  start: (payload: ?any) => { type: string, payload: any },
+  cancel: (payload: ?any) => { type: string, payload: any },
+  resolve: (payload: ?any) => { type: string, payload: any },
+  reject: (payload: ?any) => { type: string, payload: any },
   getStatus: (state: asyncState) => string,
   getError: (state: asyncState) => ?string,
   getResponse: (state: asyncState) => ?any,
   clearStatus: () => void,
+  TYPE: string,
   START: string,
-  SUCCESS: string,
-  FAILURE: string
+  CANCEL: string,
+  RESOLVE: string,
+  REJECT: string
 }
 
 /**
@@ -27,18 +31,26 @@ type asyncAction = {
  * @return {object} asyncAction
  */
 export const makeAction = (type: string): asyncAction => ({
-  type,
-  run: payload => ({type, payload}),
-  start: payload => ({type: `${type}_START`, payload}),
-  success: payload => ({type: `${type}_SUCCESS`, payload}),
-  failure: payload => ({type: `${type}_FAILURE`, payload}),
-  getStatus: ({async}: asyncState) => async[type] ? async[type].status : 'init',
-  getError: ({async}: asyncState) => async[type] ? async[type].error : null,
-  getResponse: ({async}: asyncState) => async[type] ? async[type].response : null,
-  clearStatus: ({async}: asyncState) => ({type: '@@actionCreator/CLEAR_STATUS', namespace: type}),
-  START: `${type}_START`,
-  SUCCESS: `${type}_SUCCESS`,
-  FAILURE: `${type}_FAILURE`
+  run: payload => ({ type, payload }),
+  start: payload => ({ type: `${type}_STARTED`, payload }),
+  cancel: payload => ({ type: `${type}_CANCELED`, payload }),
+  resolve: payload => ({ type: `${type}_RESOLVED`, payload }),
+  reject: payload => ({ type: `${type}_REJECTED`, payload }),
+  getStatus: ({ [REDUCER_NAME]: reducer }: asyncState) =>
+    reducer[type] ? reducer[type].status : "init",
+  getError: ({ [REDUCER_NAME]: reducer }: asyncState) =>
+    reducer[type] ? reducer[type].error : null,
+  getResponse: ({ [REDUCER_NAME]: reducer }: asyncState) =>
+    reducer[type] ? reducer[type].response : null,
+  clearStatus: () => ({
+    type: "@@actionCreator/CLEAR_STATUS",
+    namespace: type
+  }),
+  TYPE: type,
+  STARTED: `${type}_STARTED`,
+  CANCELED: `${type}_CANCELED`,
+  RESOLVED: `${type}_RESOLVED`,
+  REJECTED: `${type}_REJECTED`
 })
 
 export default makeAction
