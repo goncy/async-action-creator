@@ -11,7 +11,9 @@
   "scripts": {
     "test": "NODE_ENV=testing jest",
     "build": "webpack",
-    "cover": "yarn test -- --coverage"
+    "cover": "yarn test -- --coverage",
+    "prepublish-patch": "yarn build",
+    "publish-patch": "git commit -am 'bump version' && git push origin master && git push --tags && npm publish"
   },
   "engines": {
     "node": ">=4.2.4"
