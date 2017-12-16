@@ -13,7 +13,7 @@
     "build": "webpack",
     "cover": "yarn test -- --coverage",
     "prepublish-patch": "npm run build",
-    "publish-patch": "git commit -am 'bump version' && git push origin master && git push --tags && npm publish"
+    "publish-patch": "git commit -am 'bump version' && git push origin master && git push --tags && npm version patch && npm publish"
   },
   "engines": {
     "node": ">=4.2.4"
