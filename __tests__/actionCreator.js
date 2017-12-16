@@ -97,7 +97,7 @@ const actionCreatorFunctionProperties = [
     payload: {
       [REDUCER_NAME]: {}
     },
-    result: null
+    result: undefined
   },
   {
     name: "getResponse",
@@ -119,7 +119,7 @@ const actionCreatorFunctionProperties = [
     payload: {
       [REDUCER_NAME]: {}
     },
-    result: null
+    result: undefined
   },
   {
     name: "clearStatus",

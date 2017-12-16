@@ -34,7 +34,7 @@ const mapDispatchToProps = {
 // Using this with this `myAction.success({foo: 'bar'})` as the last action dispatched
 const mapStateToProps = state => ({
     status: myAction.getStatus(state), // => 'success'
-    error: myAction.getError(state), // => null
+    error: myAction.getError(state), // => undefined
     response: myAction.getResponse(state) // => {foo: 'bar'}
 )}
 

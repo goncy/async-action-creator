@@ -32,8 +32,8 @@ export const reducer = (
     return Object.assign({}, state, {
       [type]: {
         status: getStatus(status),
-        error: status === "REJECTED" ? getError(action) : null,
-        response: status === "RESOLVED" ? getResponse(action) : null
+        error: status === "REJECTED" ? getError(action) : undefined,
+        response: status === "RESOLVED" ? getResponse(action) : undefined
       }
     })
   } else if (action.type === "@@actionCreator/CLEAR_STATUS") {

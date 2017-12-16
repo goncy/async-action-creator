@@ -63,21 +63,21 @@ export const getStatus = (status: string): string => {
 }
 
 /**
- * Returns the payload sent and returns null if there isn't any
+ * Returns the payload sent and returns undefined if there isn't any
  * @param {object} action
  * @return {string} status
  */
 export const getResponse = ({ payload }: standardAction): string => {
   if (payload) return payload
-  else return null
+  else return undefined
 }
 
 /**
- * Returns the error and returns null if there isn't any
+ * Returns the error and returns undefined if there isn't any
  * @param {object} action
  * @return {string} status
  */
 export const getError = ({ payload }: standardAction): string => {
   if (payload) return payload
-  else return null
+  else return undefined
 }

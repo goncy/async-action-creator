@@ -39,9 +39,9 @@ export const makeAction = (type: string): asyncAction => ({
   getStatus: ({ [REDUCER_NAME]: reducer }: asyncState) =>
     reducer[type] ? reducer[type].status : "init",
   getError: ({ [REDUCER_NAME]: reducer }: asyncState) =>
-    reducer[type] ? reducer[type].error : null,
+    reducer[type] ? reducer[type].error : undefined,
   getResponse: ({ [REDUCER_NAME]: reducer }: asyncState) =>
-    reducer[type] ? reducer[type].response : null,
+    reducer[type] ? reducer[type].response : undefined,
   clearStatus: () => ({
     type: "@@actionCreator/CLEAR_STATUS",
     namespace: type

@@ -34,7 +34,7 @@ const error = [
   },
   {
     payload: undefined,
-    result: null
+    result: undefined
   }
 ]
 
@@ -49,7 +49,7 @@ const response = [
   },
   {
     payload: undefined,
-    result: null
+    result: undefined
   }
 ]
 

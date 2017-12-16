@@ -10,8 +10,8 @@ const tests = [
     nextState: {
       MY_ACTION: {
         status: "pending",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     }
   },
@@ -20,8 +20,8 @@ const tests = [
     initialState: {
       MY_ACTION: {
         status: "pending",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     },
     action: {
@@ -30,8 +30,8 @@ const tests = [
     nextState: {
       MY_ACTION: {
         status: "canceled",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     }
   },
@@ -41,8 +41,8 @@ const tests = [
     initialState: {
       MY_ACTION: {
         status: "pending",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     },
     action: {
@@ -54,8 +54,8 @@ const tests = [
     nextState: {
       MY_ACTION: {
         status: "pending",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     }
   },
@@ -65,8 +65,8 @@ const tests = [
     initialState: {
       MY_ACTION: {
         status: "pending",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     },
     action: {
@@ -78,8 +78,8 @@ const tests = [
     nextState: {
       MY_ACTION: {
         status: "canceled",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     }
   },
@@ -88,8 +88,8 @@ const tests = [
     initialState: {
       MY_ACTION: {
         status: "pending",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     },
     action: {
@@ -104,18 +104,18 @@ const tests = [
         response: {
           foo: "bar"
         },
-        error: null
+        error: undefined
       }
     }
   },
   {
     name:
-      "should update the status value and set error to null when REJECTED action was dispatched without a payload",
+      "should update the status value and set error to undefined when REJECTED action was dispatched without a payload",
     initialState: {
       MY_ACTION: {
         status: "pending",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     },
     action: {
@@ -124,8 +124,8 @@ const tests = [
     nextState: {
       MY_ACTION: {
         status: "rejected",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     }
   },
@@ -135,8 +135,8 @@ const tests = [
     initialState: {
       MY_ACTION: {
         status: "pending",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     },
     action: {
@@ -146,7 +146,7 @@ const tests = [
     nextState: {
       MY_ACTION: {
         status: "rejected",
-        response: null,
+        response: undefined,
         error: "this is an error"
       }
     }
@@ -157,7 +157,7 @@ const tests = [
       MY_ACTION: {
         status: "resolved",
         response: "Hello dog",
-        error: null
+        error: undefined
       }
     },
     action: {
@@ -166,8 +166,8 @@ const tests = [
     nextState: {
       MY_ACTION: {
         status: "pending",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     }
   },
@@ -176,7 +176,7 @@ const tests = [
     initialState: {
       MY_ACTION: {
         status: "rejected",
-        response: null,
+        response: undefined,
         error: "this failed"
       }
     },
@@ -186,8 +186,8 @@ const tests = [
     nextState: {
       MY_ACTION: {
         status: "pending",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     }
   },
@@ -198,12 +198,12 @@ const tests = [
       MY_ACTION: {
         status: "resolved",
         response: "Hello dog",
-        error: null
+        error: undefined
       },
       MY_OTHER_ACTION: {
         status: "resolved",
         response: "Hello cat",
-        error: null
+        error: undefined
       }
     },
     action: {
@@ -215,7 +215,7 @@ const tests = [
       MY_OTHER_ACTION: {
         status: "resolved",
         response: "Hello cat",
-        error: null
+        error: undefined
       }
     }
   },
@@ -225,7 +225,7 @@ const tests = [
       MY_ACTION: {
         status: "resolved",
         response: "Hello cat",
-        error: null
+        error: undefined
       }
     },
     action: {
@@ -238,7 +238,7 @@ const tests = [
       MY_ACTION: {
         status: "resolved",
         response: "Hello cat",
-        error: null
+        error: undefined
       }
     }
   },
@@ -254,8 +254,8 @@ const tests = [
     nextState: {
       MY_ACTION: {
         status: "pending",
-        response: null,
-        error: null
+        response: undefined,
+        error: undefined
       }
     }
   }
