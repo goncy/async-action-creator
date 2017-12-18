@@ -30,7 +30,7 @@ type asyncAction = {
  * @param {string} type
  * @return {object} asyncAction
  */
-export const makeAction = (type: string): asyncAction => ({
+export const createAction = (type: string): asyncAction => ({
   run: payload => ({ type, payload }),
   start: payload => ({ type: `${type}_STARTED`, payload }),
   cancel: payload => ({ type: `${type}_CANCELED`, payload }),
@@ -53,4 +53,4 @@ export const makeAction = (type: string): asyncAction => ({
   REJECTED: `${type}_REJECTED`
 })
 
-export default makeAction
+export default createAction

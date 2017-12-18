@@ -1,4 +1,4 @@
-import { makeAction } from "../src"
+import { createAction } from "../src"
 
 import { REDUCER_NAME } from "../src/constants"
 
@@ -141,14 +141,14 @@ const actionCreatorStringProperties = [
 
 describe("Action Creator", function() {
   test("should return an object", function() {
-    const actual = typeof makeAction("MY_ACTION")
+    const actual = typeof createAction("MY_ACTION")
     const expected = "object"
 
     expect(actual).toBe(expected)
   })
 
   describe("Function properties", function() {
-    const myAction = makeAction("MY_ACTION")
+    const myAction = createAction("MY_ACTION")
     actionCreatorFunctionProperties.forEach(({ name, result, payload }) => {
       test(`should have a ${name} property`, function() {
         const actual = myAction.hasOwnProperty(name)
@@ -174,7 +174,7 @@ describe("Action Creator", function() {
   })
 
   describe("String properties", function() {
-    const myAction = makeAction("MY_ACTION")
+    const myAction = createAction("MY_ACTION")
     actionCreatorStringProperties.forEach(property => {
       test(`should have a ${property} property`, function() {
         const actual = myAction.hasOwnProperty(property)

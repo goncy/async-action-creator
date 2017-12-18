@@ -12,8 +12,8 @@ Action creator is a library that helps with handling async actions on redux or s
 ## How
 ```js
 // Creating an action
-import {makeAction} from 'async-action-creator'
-const myAction = makeAction('MY_ACTION')
+import {createAction} from 'async-action-creator'
+const myAction = createAction('MY_ACTION')
 
 // Mounting the reducer
 import {REDUCER_NAME, reducer} from 'async-action-creator'
