@@ -40,7 +40,7 @@ const mapStateToProps = state => ({
 
 // Using actions in reducers
 switch (type) {
-    case myAction.type: // => 'MY_ACTION'
+    case myAction.TYPE: // => 'MY_ACTION'
         return {
             ...state,
             hello: 'me'
