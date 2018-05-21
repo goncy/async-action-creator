@@ -25,15 +25,16 @@ const rootReducer = combineReducers({
 // Dispatching async actions
 const mapDispatchToProps = {
     run: myAction.run, // run({foo: 'bar'}) -> {type: MY_ACTION, payload: {foo: 'bar'}}
-    start: myAction.start, // start({foo: 'bar'}) -> {type: MY_ACTION_START, payload: {foo: 'bar'}}
-    success: myAction.success, // success({foo: 'bar'}) -> {type: MY_ACTION_SUCCESS, payload: {foo: 'bar'}}
-    failure: myAction.failure // failure({foo: 'bar'}) -> {type: MY_ACTION_FAILURE, payload: {foo: 'bar'}}
+    start: myAction.start, // start({foo: 'bar'}) -> {type: MY_ACTION_STARTED, payload: {foo: 'bar'}}
+    cancel: myAction.cancel, // cancel({foo: 'bar'}) -> {type: MY_ACTION_CANCELED, payload: {foo: 'bar'}}
+    resolve: myAction.resolve, // resolve({foo: 'bar'}) -> {type: MY_ACTION_RESOLVED, payload: {foo: 'bar'}}
+    reject: myAction.reject // reject({foo: 'bar'}) -> {type: MY_ACTION_REJECTED, payload: {foo: 'bar'}}
 }
 
 // Getting action status, error and response
-// Using this with this `myAction.success({foo: 'bar'})` as the last action dispatched
+// Using this with this `myAction.resolve({foo: 'bar'})` as the last action dispatched
 const mapStateToProps = state => ({
-    status: myAction.getStatus(state), // => 'success'
+    status: myAction.getStatus(state), // => 'resolved'
     error: myAction.getError(state), // => undefined
     response: myAction.getResponse(state) // => {foo: 'bar'}
 )}
@@ -45,17 +46,22 @@ switch (type) {
             ...state,
             hello: 'me'
         }
-    case myAction.START: // => 'MY_ACTION_START'
+    case myAction.STARTED: // => 'MY_ACTION_STARTED'
         return {
             ...state,
             hello: 'cat'
         }
-    case myAction.SUCCESS: // => 'MY_ACTION_SUCCESS'
+    case myAction.RESOLVED: // => 'MY_ACTION_RESOLVED'
         return {
             ...state,
             hello: 'dog'
         }
-    case myAction.FAILURE: // => 'MY_ACTION_FAILURE'
+    case myAction.CANCELED: // => 'MY_ACTION_CANCELED'
+        return {
+            ...state,
+            hello: 'woof'
+        }
+    case myAction.REJECTED: // => 'MY_ACTION_REJECTED'
         return {
             ...state,
             hello: 'dodo'
