@@ -22,7 +22,34 @@ const rootReducer = combineReducers({
     [REDUCER_NAME]: reducer // Naming is important
 })
 
-// Dispatching async actions
+// Creating the services
+export default {
+  [myAction.TYPE]: {
+    uri: "https://api.chucknorris.io/jokes/random",
+    method: "GET",
+    selector: response => response.value,
+  },
+};
+
+// Adding the middleware
+import {middleware} from 'async-action-creator'
+
+...
+createStore(
+  rootReducer,
+  applyMiddleware(middleware(services))
+)
+...
+
+// Middleware in action
+dispatch(myAction.run())
+
+// Actions automatically dispatched:
+{type: 'MY_ACTION'}
+{type: 'MY_ACTION_STARTED'}
+{type: 'MY_ACTION_RESOLVED', payload: "Jean-Claude Van Damme once attempted to throw a Chuck Norris Roundhouse Kick. He was immediately arrested for fraud."}
+
+// Dispatching async actions manually
 const mapDispatchToProps = {
     run: myAction.run, // run({foo: 'bar'}) -> {type: MY_ACTION, payload: {foo: 'bar'}}
     start: myAction.start, // start({foo: 'bar'}) -> {type: MY_ACTION_STARTED, payload: {foo: 'bar'}}
