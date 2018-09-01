@@ -1,12 +1,12 @@
 // @flow
-import { REDUCER_NAME } from "./constants"
+import { REDUCER_NAME } from "./constants";
 
-import type { asyncReducerType } from "./types"
+import type { asyncReducerType } from "./types";
 
 type asyncState = {
   [name: string]: ?any,
   [REDUCER_NAME]: asyncReducerType
-}
+};
 
 type asyncAction = {
   run: (payload: ?any) => { type: string, payload: any },
@@ -19,11 +19,11 @@ type asyncAction = {
   getResponse: (state: asyncState) => ?any,
   clearStatus: () => void,
   TYPE: string,
-  START: string,
-  CANCEL: string,
-  RESOLVE: string,
-  REJECT: string
-}
+  STARTED: string,
+  CANCELED: string,
+  RESOLVED: string,
+  REJECTED: string
+};
 
 /**
  * Creates an async action
@@ -43,7 +43,7 @@ export const createAction = (type: string): asyncAction => ({
   getResponse: ({ [REDUCER_NAME]: reducer }: asyncState) =>
     reducer[type] ? reducer[type].response : undefined,
   clearStatus: () => ({
-    type: "@@actionCreator/CLEAR_STATUS",
+    type: `${REDUCER_NAME}/CLEAR_STATUS`,
     namespace: type
   }),
   TYPE: type,
@@ -51,6 +51,6 @@ export const createAction = (type: string): asyncAction => ({
   CANCELED: `${type}_CANCELED`,
   RESOLVED: `${type}_RESOLVED`,
   REJECTED: `${type}_REJECTED`
-})
+});
 
-export default createAction
+export default createAction;

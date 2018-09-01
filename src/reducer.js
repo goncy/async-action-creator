@@ -1,13 +1,15 @@
 // @flow
+import type { standardAction } from "./types";
+
 import {
   divideAction,
   getError,
   getStatus,
   isAsync,
   getResponse
-} from "./utils"
+} from "./utils";
 
-import type { standardAction } from "./types"
+import { REDUCER_NAME } from "./constants";
 
 type asyncReducerType = {
   [name: string]: {
@@ -15,7 +17,7 @@ type asyncReducerType = {
     error: ?string,
     response: ?any
   }
-}
+};
 
 /**
  * Creates the action creator reducer
@@ -23,24 +25,26 @@ type asyncReducerType = {
  * @param {object} action
  * @return {object} new state
  */
-export const reducer = (
+const reducer = (
   state: asyncReducerType = {},
   action: standardAction
 ): asyncReducerType => {
   if (isAsync(action)) {
-    const { type, status } = divideAction(action)
+    const { type, status } = divideAction(action);
     return Object.assign({}, state, {
       [type]: {
         status: getStatus(status),
         error: status === "REJECTED" ? getError(action) : undefined,
         response: status === "RESOLVED" ? getResponse(action) : undefined
       }
-    })
-  } else if (action.type === "@@actionCreator/CLEAR_STATUS") {
+    });
+  } else if (action.type === `${REDUCER_NAME}/CLEAR_STATUS`) {
     return Object.assign({}, state, {
       [action.namespace]: undefined
-    })
+    });
   } else {
-    return state
+    return state;
   }
-}
+};
+
+export default reducer;

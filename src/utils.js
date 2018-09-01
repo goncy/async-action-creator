@@ -1,10 +1,10 @@
 // @flow
-import type { standardAction } from "./types"
+import type { standardAction } from "./types";
 
 type dividedAction = {
   type: string,
   status: string
-}
+};
 
 /**
  * Checks if the action dispatched is async or not
@@ -14,7 +14,7 @@ type dividedAction = {
 export const isAsync = ({ type }: standardAction): boolean =>
   ["STARTED", "RESOLVED", "REJECTED", "CANCELED"].indexOf(
     getPlainStatus(type)
-  ) >= 0
+  ) >= 0;
 
 /**
  * Returns the plain type of the action
@@ -22,7 +22,7 @@ export const isAsync = ({ type }: standardAction): boolean =>
  * @return {string} plain type
  */
 export const getPlainType = (type: string): string =>
-  type.slice(0, type.lastIndexOf("_"))
+  type.slice(0, type.lastIndexOf("_"));
 
 /**
  * Returns the plain status of the action
@@ -30,7 +30,7 @@ export const getPlainType = (type: string): string =>
  * @return {string} plain status
  */
 export const getPlainStatus = (type: string): string =>
-  type.slice(type.lastIndexOf("_") + 1)
+  type.slice(type.lastIndexOf("_") + 1);
 
 /**
  * Split the action in type name and async status
@@ -40,7 +40,7 @@ export const getPlainStatus = (type: string): string =>
 export const divideAction = ({ type }: standardAction): dividedAction => ({
   type: getPlainType(type),
   status: getPlainStatus(type)
-})
+});
 
 /**
  * Returns the next status according to the action type
@@ -50,17 +50,17 @@ export const divideAction = ({ type }: standardAction): dividedAction => ({
 export const getStatus = (status: string): string => {
   switch (status) {
     case "STARTED":
-      return "pending"
+      return "pending";
     case "CANCELED":
-      return "canceled"
+      return "canceled";
     case "RESOLVED":
-      return "resolved"
+      return "resolved";
     case "REJECTED":
-      return "rejected"
+      return "rejected";
     default:
-      return "init"
+      return "init";
   }
-}
+};
 
 /**
  * Returns the payload sent and returns undefined if there isn't any
@@ -68,9 +68,9 @@ export const getStatus = (status: string): string => {
  * @return {string} status
  */
 export const getResponse = ({ payload }: standardAction): string => {
-  if (payload) return payload
-  else return undefined
-}
+  if (payload) return payload;
+  else return undefined;
+};
 
 /**
  * Returns the error and returns undefined if there isn't any
@@ -78,6 +78,15 @@ export const getResponse = ({ payload }: standardAction): string => {
  * @return {string} status
  */
 export const getError = ({ payload }: standardAction): string => {
-  if (payload) return payload
-  else return undefined
-}
+  if (payload) return payload;
+  else return undefined;
+};
+
+/**
+ * Calls a param with data if it's a function
+ * @param {function} param
+ * @param {any} data
+ * @return {any} data
+ */
+export const hydrate = (param, data) =>
+  typeof param === "function" ? param(data) : param;
