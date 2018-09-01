@@ -53,6 +53,9 @@
     "rollup-plugin-node-resolve": "^3.3.0",
     "rollup-plugin-uglify": "^5.0.2"
   },
+  "resolutions": {
+    "babel-core": "7.0.0-bridge.0"
+  },
   "jest": {
     "browser": true,
     "verbose": true,
