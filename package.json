@@ -2,16 +2,16 @@
   "name": "async-action-creator",
   "version": "1.1.1",
   "description": "Async actions with steroids creator for Redux or whatever you want",
-  "main": "dist/async-action-creator.js",
+  "main": "dist/async-action-creator.min.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/goncy/async-action-creator.git"
   },
   "homepage": "https://github.com/goncy/async-action-creator",
   "scripts": {
-    "test": "NODE_ENV=testing jest",
-    "build": "webpack",
-    "cover": "yarn test -- --coverage",
+    "build": "NODE_ENV=production PACKAGE_NAME=async-action-creator rollup --config rollup.config.js",
+    "test": "NODE_ENV=test jest",
+    "cover": "NODE_ENV=test npm test -- --coverage",
     "prepublish-patch": "npm run build",
     "publish-patch": "git commit -am 'bump version' && git push origin master && git push --tags && npm version patch && npm publish"
   },
@@ -28,13 +28,13 @@
   "author": "goncy",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.24.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^8.0.3",
-    "babel-jest": "^21.2.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-preset-env": "^1.6.1",
-    "coveralls": "^2.12.0",
+    "coveralls": "^3.0.2",
     "eslint": "^4.13.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-config-standard": "^11.0.0-beta.0",
@@ -44,14 +44,23 @@
     "eslint-plugin-prettier": "^2.3.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
-    "jest": "^21.2.1",
+    "jest": "^23.5.0",
     "prettier": "^1.9.2",
-    "webpack": "^3.4.1"
+    "redux": "^4.0.0",
+    "redux-mock-store": "^1.5.3",
+    "rollup": "^0.65.0",
+    "rollup-plugin-babel": "^4.0.2",
+    "rollup-plugin-commonjs": "^9.1.6",
+    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup-plugin-uglify": "^5.0.2"
   },
   "jest": {
-    "testEnvironment": "node",
+    "browser": true,
     "verbose": true,
     "collectCoverage": true,
-    "notify": true
+    "notify": true,
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }

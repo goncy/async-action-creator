@@ -1,4 +1,4 @@
-import { reducer } from "../src"
+import { reducer } from "../src";
 
 const tests = [
   {
@@ -259,13 +259,13 @@ const tests = [
       }
     }
   }
-]
+];
 
 // Iterate over tests
-describe("Reducer", function() {
+describe("Reducer", () => {
   tests.forEach(item => {
-    test(item.name, function() {
-      expect(reducer(item.initialState, item.action)).toEqual(item.nextState)
-    })
-  })
-})
+    it(item.name, () => {
+      expect(reducer(item.initialState, item.action)).toEqual(item.nextState);
+    });
+  });
+});

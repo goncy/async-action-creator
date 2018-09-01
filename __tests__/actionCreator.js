@@ -1,6 +1,5 @@
-import { createAction } from "../src"
-
-import { REDUCER_NAME } from "../src/constants"
+import { createAction } from "../src";
+import { REDUCER_NAME } from "../src/constants";
 
 const actionCreatorFunctionProperties = [
   {
@@ -129,7 +128,7 @@ const actionCreatorFunctionProperties = [
       namespace: "MY_ACTION"
     }
   }
-]
+];
 
 const actionCreatorStringProperties = [
   "TYPE",
@@ -137,58 +136,58 @@ const actionCreatorStringProperties = [
   "STARTED",
   "RESOLVED",
   "REJECTED"
-]
+];
 
-describe("Action Creator", function() {
-  test("should return an object", function() {
-    const actual = typeof createAction("MY_ACTION")
-    const expected = "object"
+describe("Action Creator", () => {
+  it("should return an object", () => {
+    const actual = typeof createAction("MY_ACTION");
+    const expected = "object";
 
-    expect(actual).toBe(expected)
-  })
+    expect(actual).toBe(expected);
+  });
 
-  describe("Function properties", function() {
-    const myAction = createAction("MY_ACTION")
+  describe("Function properties", () => {
+    const myAction = createAction("MY_ACTION");
     actionCreatorFunctionProperties.forEach(({ name, result, payload }) => {
-      test(`should have a ${name} property`, function() {
-        const actual = myAction.hasOwnProperty(name)
-        const expected = true
+      it(`should have a ${name} property`, () => {
+        const actual = myAction.hasOwnProperty(name);
+        const expected = true;
 
-        expect(actual).toEqual(expected)
-      })
+        expect(actual).toEqual(expected);
+      });
 
-      test(`${name} property should be a function`, function() {
-        const actual = typeof myAction[name]
-        const expected = "function"
+      it(`${name} property should be a function`, () => {
+        const actual = typeof myAction[name];
+        const expected = "function";
 
-        expect(actual).toBe(expected)
-      })
+        expect(actual).toBe(expected);
+      });
 
-      test(`${name} property should return correctly`, function() {
-        const actual = myAction[name](payload)
-        const expected = result
+      it(`${name} property should return correctly`, () => {
+        const actual = myAction[name](payload);
+        const expected = result;
 
-        expect(actual).toEqual(expected)
-      })
-    })
-  })
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
 
-  describe("String properties", function() {
-    const myAction = createAction("MY_ACTION")
+  describe("String properties", () => {
+    const myAction = createAction("MY_ACTION");
     actionCreatorStringProperties.forEach(property => {
-      test(`should have a ${property} property`, function() {
-        const actual = myAction.hasOwnProperty(property)
-        const expected = true
+      it(`should have a ${property} property`, () => {
+        const actual = myAction.hasOwnProperty(property);
+        const expected = true;
 
-        expect(actual).toEqual(expected)
-      })
+        expect(actual).toEqual(expected);
+      });
 
-      test(`${property} property should be a string`, function() {
-        const actual = typeof myAction[property]
-        const expected = "string"
+      it(`${property} property should be a string`, () => {
+        const actual = typeof myAction[property];
+        const expected = "string";
 
-        expect(actual).toBe(expected)
-      })
-    })
-  })
-})
+        expect(actual).toBe(expected);
+      });
+    });
+  });
+});

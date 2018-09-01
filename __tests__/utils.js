@@ -1,4 +1,4 @@
-import { getStatus, getError, getResponse } from "../src/utils"
+import { getStatus, getError, getResponse, hydrate } from "../src/utils";
 
 const status = [
   {
@@ -21,7 +21,7 @@ const status = [
     payload: undefined,
     result: "init"
   }
-]
+];
 
 const error = [
   {
@@ -36,7 +36,7 @@ const error = [
     payload: undefined,
     result: undefined
   }
-]
+];
 
 const response = [
   {
@@ -51,36 +51,55 @@ const response = [
     payload: undefined,
     result: undefined
   }
-]
+];
 
-describe("Utils", function() {
-  describe("getStatus", function() {
+describe("Utils", () => {
+  describe("getStatus", () => {
     status.forEach(({ payload, result }) => {
-      test(`should get the status correctly when payload is ${payload}`, function() {
-        const actual = getStatus(payload)
-        const expected = result
-        expect(actual).toEqual(expected)
-      })
-    })
-  })
+      it(`should get the status correctly when payload is ${payload}`, () => {
+        const actual = getStatus(payload);
+        const expected = result;
 
-  describe("getError", function() {
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
+
+  describe("getError", () => {
     error.forEach(({ payload, result }) => {
-      test(`should get the status correctly when payload is ${payload}`, function() {
-        const actual = getError({ payload })
-        const expected = result
-        expect(actual).toEqual(expected)
-      })
-    })
-  })
+      it(`should get the status correctly when payload is ${payload}`, () => {
+        const actual = getError({ payload });
+        const expected = result;
 
-  describe("getResponse", function() {
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
+
+  describe("getResponse", () => {
     response.forEach(({ payload, result }) => {
-      test(`should get the status correctly when payload is ${payload}`, function() {
-        const actual = getResponse({ payload })
-        const expected = result
-        expect(actual).toEqual(expected)
-      })
-    })
-  })
-})
+      it(`should get the status correctly when payload is ${payload}`, () => {
+        const actual = getResponse({ payload });
+        const expected = result;
+
+        expect(actual).toEqual(expected);
+      });
+    });
+  });
+
+  describe("hydrate", () => {
+    it(`should hydrate function values`, () => {
+      const actual = hydrate(values => ({ values }), { foo: "bar" });
+      const expected = { values: { foo: "bar" } };
+
+      expect(actual).toEqual(expected);
+    });
+
+    it(`should not hydrate non function values`, () => {
+      const actual = hydrate({ bar: "baz" }, { foo: "bar" });
+      const expected = { bar: "baz" };
+
+      expect(actual).toEqual(expected);
+    });
+  });
+});
