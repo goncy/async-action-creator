@@ -21,11 +21,17 @@ const middleware = services => store => next => action => {
   const { type, payload } = action;
   const match = services[type];
 
-  if (match) {
-    let { uri, method, selector, options = {}, start = true } = match;
+  next(action);
 
-    next(action);
-    start && store.dispatch({ type: `${type}_STARTED` });
+  if (match) {
+    const { uri, method, selector, action, options = {}, start = true } = match;
+
+    if (!action)
+      throw new Error(
+        `The matched service doesn't receive an 'action' property`
+      );
+
+    start && store.dispatch(action.start());
 
     return fetch(hydrate(uri, payload), { ...options, method })
       .then(response => {
@@ -40,12 +46,8 @@ const middleware = services => store => next => action => {
       })
       .then(response => response.json())
       .then(data => (selector ? selector(data) : data))
-      .then(data => store.dispatch({ type: `${type}_RESOLVED`, payload: data }))
-      .catch(error =>
-        store.dispatch({ type: `${type}_REJECTED`, payload: error })
-      );
-  } else {
-    return next(action);
+      .then(data => store.dispatch(action.resolve(data)))
+      .catch(error => store.dispatch(action.reject(error)));
   }
 };
 

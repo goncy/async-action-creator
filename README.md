@@ -25,6 +25,7 @@ const rootReducer = combineReducers({
 // Creating the services
 export default {
   [myAction.TYPE]: {
+    action: myAction,
     uri: "https://api.chucknorris.io/jokes/random",
     method: "GET",
     selector: response => response.value,

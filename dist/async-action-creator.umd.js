@@ -19,15 +19,33 @@
           payload: payload
         };
       },
-      start: function start(payload) {
+      fetch: function fetch(payload) {
         return {
-          type: "".concat(type, "_STARTED"),
+          type: "".concat(type, "_FETCH"),
           payload: payload
         };
       },
-      cancel: function cancel(payload) {
+      update: function update(payload) {
         return {
-          type: "".concat(type, "_CANCELED"),
+          type: "".concat(type, "_UPDATE"),
+          payload: payload
+        };
+      },
+      create: function create(payload) {
+        return {
+          type: "".concat(type, "_CREATE"),
+          payload: payload
+        };
+      },
+      remove: function remove(payload) {
+        return {
+          type: "".concat(type, "_REMOVE"),
+          payload: payload
+        };
+      },
+      start: function start(payload) {
+        return {
+          type: "".concat(type, "_STARTED"),
           payload: payload
         };
       },
@@ -62,8 +80,11 @@
         };
       },
       TYPE: type,
+      FETCH: "".concat(type, "_FETCH"),
+      UPDATE: "".concat(type, "_UPDATE"),
+      CREATE: "".concat(type, "_CREATE"),
+      REMOVE: "".concat(type, "_REMOVE"),
       STARTED: "".concat(type, "_STARTED"),
-      CANCELED: "".concat(type, "_CANCELED"),
       RESOLVED: "".concat(type, "_RESOLVED"),
       REJECTED: "".concat(type, "_REJECTED")
     };
@@ -110,7 +131,7 @@
    */
   var isAsync = function isAsync(_ref) {
     var type = _ref.type;
-    return ["STARTED", "RESOLVED", "REJECTED", "CANCELED"].indexOf(getPlainStatus(type)) >= 0;
+    return ["STARTED", "RESOLVED", "REJECTED"].indexOf(getPlainStatus(type)) >= 0;
   };
   /**
    * Returns the plain type of the action
@@ -153,9 +174,6 @@
     switch (status) {
       case "STARTED":
         return "pending";
-
-      case "CANCELED":
-        return "canceled";
 
       case "RESOLVED":
         return "resolved";
@@ -234,36 +252,38 @@
           var type = action.type,
               payload = action.payload;
           var match = services[type];
+          next(action);
 
           if (match) {
             var uri = match.uri,
                 method = match.method,
                 selector = match.selector,
+                _action = match.action,
                 _match$options = match.options,
-                options = _match$options === void 0 ? {} : _match$options;
-            next(action);
-            store.dispatch({
-              type: "".concat(type, "_STARTED")
-            });
+                options = _match$options === void 0 ? {} : _match$options,
+                _match$start = match.start,
+                start = _match$start === void 0 ? true : _match$start;
+            if (!_action) throw new Error("The matched service doesn't receive an 'action' property");
+            start && store.dispatch(_action.start());
             return fetch(hydrate(uri, payload), _objectSpread({}, options, {
               method: method
             })).then(function (response) {
+              if (response.status >= 200 && response.status < 300) {
+                return response;
+              }
+
+              var error = new Error(response.statusText);
+              error.response = response;
+              throw error;
+            }).then(function (response) {
               return response.json();
             }).then(function (data) {
               return selector ? selector(data) : data;
             }).then(function (data) {
-              return store.dispatch({
-                type: "".concat(type, "_RESOLVED"),
-                payload: data
-              });
+              return store.dispatch(_action.resolve(data));
             }).catch(function (error) {
-              return store.dispatch({
-                type: "".concat(type, "_REJECTED"),
-                payload: error
-              });
+              return store.dispatch(_action.reject(error));
             });
-          } else {
-            return next(action);
           }
         };
       };

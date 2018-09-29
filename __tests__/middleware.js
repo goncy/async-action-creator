@@ -1,6 +1,7 @@
 import configureMockStore from "redux-mock-store";
 
 import middleware from "../src/middleware";
+import { createAction } from "../src/actionCreator";
 
 const mockFetch = ({ response, error }) =>
   jest
@@ -12,18 +13,32 @@ const mockFetch = ({ response, error }) =>
           : Promise.resolve({ json: () => response, status: 200 })
     );
 
+const standardAction = createAction("STANDARD_ACTION");
+const invalidServiceAction = createAction("INVALID_SERVICE_ACTION");
+const serviceAction = createAction("SERVICE_ACTION");
+const noServiceAction = createAction("NO_SERVICE_ACTION");
+const serviceWithSelectorAction = createAction("SERVICE_WITH_SELECTOR_ACTION");
+const serviceWithoutStartAction = createAction("SERVICE_WITHOUT_START_ACTION");
+
 describe("Middleware", () => {
   const services = {
-    MATCHING_ACTION: {
+    [invalidServiceAction.TYPE]: {
       uri: "http://an.api.com",
       method: "GET"
     },
-    SELECTOR_ACTION: {
+    [serviceAction.TYPE]: {
+      action: serviceAction,
+      uri: "http://an.api.com",
+      method: "GET"
+    },
+    [serviceWithSelectorAction.TYPE]: {
+      action: serviceWithSelectorAction,
       uri: "http://an.api.com",
       method: "GET",
       selector: response => response.value
     },
-    NOT_START_ACTION: {
+    [serviceWithoutStartAction.TYPE]: {
+      action: serviceWithoutStartAction,
       start: false,
       uri: "http://an.api.com",
       method: "GET"
@@ -33,7 +48,7 @@ describe("Middleware", () => {
 
   describe("Initialize", () => {
     const next = _ => _;
-    const action = { type: "AN_ACTION" };
+    const action = standardAction.run();
 
     it("Should handle empty services", () => {
       expect(() => middleware(undefined)(store)(next)(action)).toThrowError();
@@ -53,10 +68,14 @@ describe("Middleware", () => {
   describe("Execution", () => {
     beforeEach(() => store.clearActions());
 
+    it("Throws an error when no action is passed", async () => {
+      expect(() => store.dispatch(invalidServiceAction.run())).toThrowError();
+    });
+
     it("Doesn't fetches when an action doesn't matches", async () => {
       window.fetch = mockFetch({ response: "foo" });
 
-      await store.dispatch({ type: "NOT_MATCHING_ACTION" });
+      await store.dispatch(noServiceAction.run());
 
       expect(window.fetch).not.toBeCalled();
     });
@@ -64,7 +83,7 @@ describe("Middleware", () => {
     it("fetches when an action matches", async () => {
       window.fetch = mockFetch({ response: "foo" });
 
-      await store.dispatch({ type: "MATCHING_ACTION" });
+      await store.dispatch(serviceAction.run());
 
       expect(window.fetch).toBeCalled();
     });
@@ -72,74 +91,64 @@ describe("Middleware", () => {
     it("Completes the happy path", async () => {
       let actions;
       const response = { value: "foo" };
-      const action = { type: "MATCHING_ACTION" };
+      const action = serviceAction;
 
       window.fetch = mockFetch({ response });
 
-      await store.dispatch(action);
+      await store.dispatch(action.run());
       actions = store.getActions();
 
       expect(actions.length).toEqual(3);
-      expect(actions).toContainEqual(action);
-      expect(actions).toContainEqual({ type: `${action.type}_STARTED` });
-      expect(actions).toContainEqual({
-        type: `${action.type}_RESOLVED`,
-        payload: response
-      });
+      expect(actions).toContainEqual(action.run());
+      expect(actions).toContainEqual(action.start());
+      expect(actions).toContainEqual(action.resolve(response));
     });
 
     it("Fails the happy path", async () => {
       let actions;
       const error = "foo";
-      const action = { type: "MATCHING_ACTION" };
+      const action = serviceAction;
 
       window.fetch = mockFetch({ error });
 
-      await store.dispatch(action);
+      await store.dispatch(action.run());
       actions = store.getActions();
 
-      expect(actions).toContainEqual({
-        type: `${action.type}_REJECTED`,
-        payload: new Error(error)
-      });
+      expect(actions).toContainEqual(action.reject(new Error(error)));
     });
 
     it("Transforms the response with a selector", async () => {
       let actions;
       const response = { value: "foo" };
-      const action = { type: "SELECTOR_ACTION" };
+      const action = serviceWithSelectorAction;
 
       window.fetch = mockFetch({ response });
 
-      await store.dispatch(action);
+      await store.dispatch(action.run());
       actions = store.getActions();
 
       expect(actions.length).toEqual(3);
-      expect(actions).toContainEqual(action);
-      expect(actions).toContainEqual({ type: `${action.type}_STARTED` });
-      expect(actions).toContainEqual({
-        type: `${action.type}_RESOLVED`,
-        payload: services[action.type].selector(response)
-      });
+      expect(actions).toContainEqual(action.run());
+      expect(actions).toContainEqual(action.start());
+      expect(actions).toContainEqual(
+        action.resolve(services[action.TYPE].selector(response))
+      );
     });
 
     it("Doesn't dispatch a STARTED action if start is false", async () => {
       let actions;
       const response = { value: "foo" };
-      const action = { type: "NOT_START_ACTION" };
+      const action = serviceWithoutStartAction;
 
       window.fetch = mockFetch({ response });
 
-      await store.dispatch(action);
+      await store.dispatch(action.run());
       actions = store.getActions();
 
       expect(actions.length).toEqual(2);
-      expect(actions).toContainEqual(action);
-      expect(actions).not.toContainEqual({ type: `${action.type}_STARTED` });
-      expect(actions).toContainEqual({
-        type: `${action.type}_RESOLVED`,
-        payload: response
-      });
+      expect(actions).toContainEqual(action.run());
+      expect(actions).not.toContainEqual(action.start());
+      expect(actions).toContainEqual(action.resolve(response));
     });
   });
 });
