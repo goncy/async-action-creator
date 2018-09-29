@@ -27,12 +27,48 @@ const actionCreatorFunctionProperties = [
     }
   },
   {
-    name: "cancel",
+    name: "fetch",
     payload: {
       foo: "bar"
     },
     result: {
-      type: "MY_ACTION_CANCELED",
+      type: "MY_ACTION_FETCH",
+      payload: {
+        foo: "bar"
+      }
+    }
+  },
+  {
+    name: "update",
+    payload: {
+      foo: "bar"
+    },
+    result: {
+      type: "MY_ACTION_UPDATE",
+      payload: {
+        foo: "bar"
+      }
+    }
+  },
+  {
+    name: "create",
+    payload: {
+      foo: "bar"
+    },
+    result: {
+      type: "MY_ACTION_CREATE",
+      payload: {
+        foo: "bar"
+      }
+    }
+  },
+  {
+    name: "remove",
+    payload: {
+      foo: "bar"
+    },
+    result: {
+      type: "MY_ACTION_REMOVE",
       payload: {
         foo: "bar"
       }
@@ -132,8 +168,11 @@ const actionCreatorFunctionProperties = [
 
 const actionCreatorStringProperties = [
   "TYPE",
-  "CANCELED",
   "STARTED",
+  "FETCH",
+  "UPDATE",
+  "CREATE",
+  "REMOVE",
   "RESOLVED",
   "REJECTED"
 ];

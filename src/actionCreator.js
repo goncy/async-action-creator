@@ -10,8 +10,11 @@ type asyncState = {
 
 type asyncAction = {
   run: (payload: ?any) => { type: string, payload: any },
+  fetch: (payload: ?any) => { type: string, payload: any },
+  update: (payload: ?any) => { type: string, payload: any },
+  create: (payload: ?any) => { type: string, payload: any },
+  remove: (payload: ?any) => { type: string, payload: any },
   start: (payload: ?any) => { type: string, payload: any },
-  cancel: (payload: ?any) => { type: string, payload: any },
   resolve: (payload: ?any) => { type: string, payload: any },
   reject: (payload: ?any) => { type: string, payload: any },
   getStatus: (state: asyncState) => string,
@@ -19,8 +22,11 @@ type asyncAction = {
   getResponse: (state: asyncState) => ?any,
   clearStatus: () => void,
   TYPE: string,
+  FETCH: string,
+  UPDATE: string,
+  CREATE: string,
+  REMOVE: string,
   STARTED: string,
-  CANCELED: string,
   RESOLVED: string,
   REJECTED: string
 };
@@ -32,8 +38,11 @@ type asyncAction = {
  */
 export const createAction = (type: string): asyncAction => ({
   run: payload => ({ type, payload }),
+  fetch: payload => ({ type: `${type}_FETCH`, payload }),
+  update: payload => ({ type: `${type}_UPDATE`, payload }),
+  create: payload => ({ type: `${type}_CREATE`, payload }),
+  remove: payload => ({ type: `${type}_REMOVE`, payload }),
   start: payload => ({ type: `${type}_STARTED`, payload }),
-  cancel: payload => ({ type: `${type}_CANCELED`, payload }),
   resolve: payload => ({ type: `${type}_RESOLVED`, payload }),
   reject: payload => ({ type: `${type}_REJECTED`, payload }),
   getStatus: ({ [REDUCER_NAME]: reducer }: asyncState) =>
@@ -47,8 +56,11 @@ export const createAction = (type: string): asyncAction => ({
     namespace: type
   }),
   TYPE: type,
+  FETCH: `${type}_FETCH`,
+  UPDATE: `${type}_UPDATE`,
+  CREATE: `${type}_CREATE`,
+  REMOVE: `${type}_REMOVE`,
   STARTED: `${type}_STARTED`,
-  CANCELED: `${type}_CANCELED`,
   RESOLVED: `${type}_RESOLVED`,
   REJECTED: `${type}_REJECTED`
 });

@@ -12,9 +12,7 @@ type dividedAction = {
  * @return {boolean} response
  */
 export const isAsync = ({ type }: standardAction): boolean =>
-  ["STARTED", "RESOLVED", "REJECTED", "CANCELED"].indexOf(
-    getPlainStatus(type)
-  ) >= 0;
+  ["STARTED", "RESOLVED", "REJECTED"].indexOf(getPlainStatus(type)) >= 0;
 
 /**
  * Returns the plain type of the action
@@ -51,8 +49,6 @@ export const getStatus = (status: string): string => {
   switch (status) {
     case "STARTED":
       return "pending";
-    case "CANCELED":
-      return "canceled";
     case "RESOLVED":
       return "resolved";
     case "REJECTED":

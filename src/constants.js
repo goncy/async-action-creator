@@ -1,1 +1,1 @@
-export const REDUCER_NAME = "@@actionCreator"
+export const REDUCER_NAME = "@@actionCreator";

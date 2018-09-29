@@ -16,26 +16,6 @@ const tests = [
     }
   },
   {
-    name: "should update the status value when CANCELED action was dispatched",
-    initialState: {
-      MY_ACTION: {
-        status: "pending",
-        response: undefined,
-        error: undefined
-      }
-    },
-    action: {
-      type: "MY_ACTION_CANCELED"
-    },
-    nextState: {
-      MY_ACTION: {
-        status: "canceled",
-        response: undefined,
-        error: undefined
-      }
-    }
-  },
-  {
     name:
       "should not update error or status when STARTED action was dispatched with a payload",
     initialState: {
@@ -60,8 +40,7 @@ const tests = [
     }
   },
   {
-    name:
-      "should not update error or status when CANCELED action was dispatched with a payload",
+    name: "should not update error or status when FETCH action was dispatched",
     initialState: {
       MY_ACTION: {
         status: "pending",
@@ -70,14 +49,83 @@ const tests = [
       }
     },
     action: {
-      type: "MY_ACTION_CANCELED",
+      type: "MY_ACTION_FETCH",
       payload: {
         foo: "bar"
       }
     },
     nextState: {
       MY_ACTION: {
-        status: "canceled",
+        status: "pending",
+        response: undefined,
+        error: undefined
+      }
+    }
+  },
+  {
+    name: "should not update error or status when REMOVE action was dispatched",
+    initialState: {
+      MY_ACTION: {
+        status: "pending",
+        response: undefined,
+        error: undefined
+      }
+    },
+    action: {
+      type: "MY_ACTION_REMOVE",
+      payload: {
+        foo: "bar"
+      }
+    },
+    nextState: {
+      MY_ACTION: {
+        status: "pending",
+        response: undefined,
+        error: undefined
+      }
+    }
+  },
+  {
+    name: "should not update error or status when UPDATE action was dispatched",
+    initialState: {
+      MY_ACTION: {
+        status: "pending",
+        response: undefined,
+        error: undefined
+      }
+    },
+    action: {
+      type: "MY_ACTION_UPDATE",
+      payload: {
+        foo: "bar"
+      }
+    },
+    nextState: {
+      MY_ACTION: {
+        status: "pending",
+        response: undefined,
+        error: undefined
+      }
+    }
+  },
+  {
+    name: "should not update error or status when CREATE action was dispatched",
+    initialState: {
+      MY_ACTION: {
+        status: "pending",
+        response: undefined,
+        error: undefined
+      }
+    },
+    action: {
+      type: "MY_ACTION_CREATE",
+      payload: {
+        foo: "bar"
+      }
+    },
+    nextState: {
+      MY_ACTION: {
+        status: "pending",
         response: undefined,
         error: undefined
       }

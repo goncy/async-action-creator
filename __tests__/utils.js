@@ -6,16 +6,28 @@ const status = [
     result: "pending"
   },
   {
-    payload: "CANCELED",
-    result: "canceled"
-  },
-  {
     payload: "RESOLVED",
     result: "resolved"
   },
   {
     payload: "REJECTED",
     result: "rejected"
+  },
+  {
+    payload: "FETCH",
+    result: "init"
+  },
+  {
+    payload: "UPDATE",
+    result: "init"
+  },
+  {
+    payload: "CREATE",
+    result: "init"
+  },
+  {
+    payload: "REMOVE",
+    result: "init"
   },
   {
     payload: undefined,

@@ -22,12 +22,22 @@ const middleware = services => store => next => action => {
   const match = services[type];
 
   if (match) {
-    let { uri, method, selector, options = {} } = match;
+    let { uri, method, selector, options = {}, start = true } = match;
 
     next(action);
-    store.dispatch({ type: `${type}_STARTED` });
+    start && store.dispatch({ type: `${type}_STARTED` });
 
     return fetch(hydrate(uri, payload), { ...options, method })
+      .then(response => {
+        if (response.status >= 200 && response.status < 300) {
+          return response;
+        }
+
+        const error = new Error(response.statusText);
+        error.response = response;
+
+        throw error;
+      })
       .then(response => response.json())
       .then(data => (selector ? selector(data) : data))
       .then(data => store.dispatch({ type: `${type}_RESOLVED`, payload: data }))

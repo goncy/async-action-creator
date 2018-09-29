@@ -53,7 +53,10 @@ dispatch(myAction.run())
 const mapDispatchToProps = {
     run: myAction.run, // run({foo: 'bar'}) -> {type: MY_ACTION, payload: {foo: 'bar'}}
     start: myAction.start, // start({foo: 'bar'}) -> {type: MY_ACTION_STARTED, payload: {foo: 'bar'}}
-    cancel: myAction.cancel, // cancel({foo: 'bar'}) -> {type: MY_ACTION_CANCELED, payload: {foo: 'bar'}}
+    fetch: myAction.fetch, // fetch({foo: 'bar'}) -> {type: MY_ACTION_FETCH, payload: {foo: 'bar'}}
+    update: myAction.update, // update({foo: 'bar'}) -> {type: MY_ACTION_UPDATE, payload: {foo: 'bar'}}
+    create: myAction.create, // create({foo: 'bar'}) -> {type: MY_ACTION_CREATE, payload: {foo: 'bar'}}
+    remove: myAction.remove, // remove({foo: 'bar'}) -> {type: MY_ACTION_REMOVE, payload: {foo: 'bar'}}
     resolve: myAction.resolve, // resolve({foo: 'bar'}) -> {type: MY_ACTION_RESOLVED, payload: {foo: 'bar'}}
     reject: myAction.reject // reject({foo: 'bar'}) -> {type: MY_ACTION_REJECTED, payload: {foo: 'bar'}}
 }
@@ -78,15 +81,30 @@ switch (type) {
             ...state,
             hello: 'cat'
         }
+    case myAction.FETCH: // => 'MY_ACTION_FETCH'
+        return {
+            ...state,
+            hello: 'rat'
+        }
+    case myAction.UPDATE: // => 'MY_ACTION_UPDATE'
+        return {
+            ...state,
+            hello: 'rabbit'
+        }
+    case myAction.CREATE: // => 'MY_ACTION_CREATE'
+        return {
+            ...state,
+            hello: 'owl'
+        }
+    case myAction.REMOVE: // => 'MY_ACTION_REMOVE'
+        return {
+            ...state,
+            hello: 'elephant'
+        }
     case myAction.RESOLVED: // => 'MY_ACTION_RESOLVED'
         return {
             ...state,
             hello: 'dog'
-        }
-    case myAction.CANCELED: // => 'MY_ACTION_CANCELED'
-        return {
-            ...state,
-            hello: 'woof'
         }
     case myAction.REJECTED: // => 'MY_ACTION_REJECTED'
         return {

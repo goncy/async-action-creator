@@ -7,9 +7,9 @@ const mockFetch = ({ response, error }) =>
     .fn()
     .mockImplementation(
       () =>
-        response
-          ? Promise.resolve({ json: () => response })
-          : Promise.reject(error)
+        error
+          ? Promise.resolve({ status: 500, statusText: error })
+          : Promise.resolve({ json: () => response, status: 200 })
     );
 
 describe("Middleware", () => {
@@ -22,6 +22,11 @@ describe("Middleware", () => {
       uri: "http://an.api.com",
       method: "GET",
       selector: response => response.value
+    },
+    NOT_START_ACTION: {
+      start: false,
+      uri: "http://an.api.com",
+      method: "GET"
     }
   };
   const store = configureMockStore([middleware(services)])({});
@@ -48,7 +53,7 @@ describe("Middleware", () => {
   describe("Execution", () => {
     beforeEach(() => store.clearActions());
 
-    it("does not fetches when an action matches", async () => {
+    it("Doesn't fetches when an action doesn't matches", async () => {
       window.fetch = mockFetch({ response: "foo" });
 
       await store.dispatch({ type: "NOT_MATCHING_ACTION" });
@@ -95,7 +100,7 @@ describe("Middleware", () => {
 
       expect(actions).toContainEqual({
         type: `${action.type}_REJECTED`,
-        payload: error
+        payload: new Error(error)
       });
     });
 
@@ -115,6 +120,25 @@ describe("Middleware", () => {
       expect(actions).toContainEqual({
         type: `${action.type}_RESOLVED`,
         payload: services[action.type].selector(response)
+      });
+    });
+
+    it("Doesn't dispatch a STARTED action if start is false", async () => {
+      let actions;
+      const response = { value: "foo" };
+      const action = { type: "NOT_START_ACTION" };
+
+      window.fetch = mockFetch({ response });
+
+      await store.dispatch(action);
+      actions = store.getActions();
+
+      expect(actions.length).toEqual(2);
+      expect(actions).toContainEqual(action);
+      expect(actions).not.toContainEqual({ type: `${action.type}_STARTED` });
+      expect(actions).toContainEqual({
+        type: `${action.type}_RESOLVED`,
+        payload: response
       });
     });
   });
