@@ -84,5 +84,5 @@ export const getError = ({ payload }: standardAction): string => {
  * @param {any} data
  * @return {any} data
  */
-export const hydrate = (param: Function | any, data: any) =>
-  typeof param === "function" ? param(data) : param;
+export const hydrate = (param: Function | any, ...data: Array) =>
+  typeof param === "function" ? param(...data) : param;

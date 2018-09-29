@@ -25,6 +25,7 @@ const middleware = services => store => next => action => {
 
   if (match) {
     const { uri, method, selector, action, options = {}, start = true } = match;
+    const state = store.getState();
 
     if (!action)
       throw new Error(
@@ -33,7 +34,7 @@ const middleware = services => store => next => action => {
 
     start && store.dispatch(action.start());
 
-    return fetch(hydrate(uri, payload), { ...options, method })
+    return fetch(hydrate(uri, payload, state), { ...options, method })
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           return response;
@@ -45,7 +46,7 @@ const middleware = services => store => next => action => {
         throw error;
       })
       .then(response => response.json())
-      .then(data => (selector ? selector(data) : data))
+      .then(data => (selector ? selector(data, state) : data))
       .then(data => store.dispatch(action.resolve(data)))
       .catch(error => store.dispatch(action.reject(error)));
   }

@@ -206,8 +206,12 @@ var getError = function getError(_ref4) {
  * @return {any} data
  */
 
-var hydrate = function hydrate(param, data) {
-  return typeof param === "function" ? param(data) : param;
+var hydrate = function hydrate(param) {
+  for (var _len = arguments.length, data = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    data[_key - 1] = arguments[_key];
+  }
+
+  return typeof param === "function" ? param.apply(void 0, data) : param;
 };
 
 /**
@@ -257,9 +261,10 @@ var middleware = function middleware(services) {
               options = _match$options === void 0 ? {} : _match$options,
               _match$start = match.start,
               start = _match$start === void 0 ? true : _match$start;
+          var state = store.getState();
           if (!_action) throw new Error("The matched service doesn't receive an 'action' property");
           start && store.dispatch(_action.start());
-          return fetch(hydrate(uri, payload), _objectSpread({}, options, {
+          return fetch(hydrate(uri, payload, state), _objectSpread({}, options, {
             method: method
           })).then(function (response) {
             if (response.status >= 200 && response.status < 300) {
@@ -272,7 +277,7 @@ var middleware = function middleware(services) {
           }).then(function (response) {
             return response.json();
           }).then(function (data) {
-            return selector ? selector(data) : data;
+            return selector ? selector(data, state) : data;
           }).then(function (data) {
             return store.dispatch(_action.resolve(data));
           }).catch(function (error) {
