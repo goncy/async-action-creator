@@ -77,12 +77,3 @@ export const getError = ({ payload }: standardAction): string => {
   if (payload) return payload;
   else return undefined;
 };
-
-/**
- * Calls a param with data if it's a function
- * @param {function} param
- * @param {any} data
- * @return {any} data
- */
-export const hydrate = (param: Function | any, ...data: Array) =>
-  typeof param === "function" ? param(...data) : param;

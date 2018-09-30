@@ -1,5 +1,3 @@
-import { hydrate } from "./utils";
-
 const middleware = services => store => next => action => {
   if (!services)
     throw new Error(`No services were passed to the async-action-creator middleware, you have to pass an object like:
@@ -24,8 +22,22 @@ const middleware = services => store => next => action => {
   next(action);
 
   if (match) {
-    const { uri, method, selector, action, options = {}, start = true } = match;
+    const {
+      method,
+      action,
+      onResponse,
+      onError,
+      onBeforeRequest,
+      uri: _uri,
+      options: _options = {},
+      start = true
+    } = match;
     const state = store.getState();
+
+    const uri = typeof _uri === "function" ? _uri(payload, state) : _uri;
+    const options = onBeforeRequest
+      ? onBeforeRequest(_options, state)
+      : _options;
 
     if (!action)
       throw new Error(
@@ -34,7 +46,7 @@ const middleware = services => store => next => action => {
 
     start && store.dispatch(action.start());
 
-    return fetch(hydrate(uri, payload, state), { ...options, method })
+    return fetch(uri, { ...options, method })
       .then(response => {
         if (response.status >= 200 && response.status < 300) {
           return response;
@@ -46,9 +58,13 @@ const middleware = services => store => next => action => {
         throw error;
       })
       .then(response => response.json())
-      .then(data => (selector ? selector(data, state) : data))
+      .then(data => (onResponse ? onResponse(data, state) : data))
       .then(data => store.dispatch(action.resolve(data)))
-      .catch(error => store.dispatch(action.reject(error)));
+      .catch(error =>
+        Promise.resolve(onError ? onError(error, state) : error).then(error =>
+          store.dispatch(action.reject(error))
+        )
+      );
   }
 };
 

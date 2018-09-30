@@ -1,4 +1,7 @@
-import { getStatus, getError, getResponse, hydrate } from "../src/utils";
+import { getStatus, getError, getResponse } from "../src/utils";
+
+const hydrate = (param, ...data) =>
+  typeof param === "function" ? param(...data) : param;
 
 const status = [
   {

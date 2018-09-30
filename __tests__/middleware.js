@@ -14,10 +14,11 @@ const mockFetch = ({ response, error }) =>
     );
 
 const standardAction = createAction("STANDARD_ACTION");
-const invalidServiceAction = createAction("INVALID_SERVICE_ACTION");
 const serviceAction = createAction("SERVICE_ACTION");
-const noServiceAction = createAction("NO_SERVICE_ACTION");
-const serviceWithSelectorAction = createAction("SERVICE_WITH_SELECTOR_ACTION");
+const serviceWithoutSelectorsAction = createAction(
+  "SERVICE_WITHOUT_SELECTORS_ACTION"
+);
+const invalidServiceAction = createAction("INVALID_SERVICE_ACTION");
 const serviceWithoutStartAction = createAction("SERVICE_WITHOUT_START_ACTION");
 
 describe("Middleware", () => {
@@ -26,22 +27,24 @@ describe("Middleware", () => {
       uri: "http://an.api.com",
       method: "GET"
     },
-    [serviceAction.TYPE]: {
-      action: serviceAction,
-      uri: "http://an.api.com",
-      method: "GET"
-    },
-    [serviceWithSelectorAction.TYPE]: {
-      action: serviceWithSelectorAction,
-      uri: "http://an.api.com",
-      method: "GET",
-      selector: response => response.value
-    },
     [serviceWithoutStartAction.TYPE]: {
       action: serviceWithoutStartAction,
       start: false,
       uri: "http://an.api.com",
       method: "GET"
+    },
+    [serviceWithoutSelectorsAction.TYPE]: {
+      action: serviceWithoutSelectorsAction,
+      uri: "http://an.api.com",
+      method: "GET"
+    },
+    [serviceAction.TYPE]: {
+      action: serviceAction,
+      uri: "http://an.api.com",
+      method: "GET",
+      onResponse: response => response.value,
+      onError: error => error.statusText,
+      onBeforeRequest: options => ({ ...options, foo: "bar" })
     }
   };
   const store = configureMockStore([middleware(services)])({});
@@ -75,7 +78,7 @@ describe("Middleware", () => {
     it("Doesn't fetches when an action doesn't matches", async () => {
       window.fetch = mockFetch({ response: "foo" });
 
-      await store.dispatch(noServiceAction.run());
+      await store.dispatch(standardAction.run());
 
       expect(window.fetch).not.toBeCalled();
     });
@@ -88,10 +91,10 @@ describe("Middleware", () => {
       expect(window.fetch).toBeCalled();
     });
 
-    it("Completes the happy path", async () => {
+    it("Dispatches the run and start actions when a service matches", async () => {
       let actions;
       const response = { value: "foo" };
-      const action = serviceAction;
+      const action = serviceWithoutSelectorsAction;
 
       window.fetch = mockFetch({ response });
 
@@ -104,10 +107,23 @@ describe("Middleware", () => {
       expect(actions).toContainEqual(action.resolve(response));
     });
 
-    it("Fails the happy path", async () => {
+    it("Fetches and returns the response without transformations", async () => {
+      let actions;
+      const response = { value: "foo" };
+      const action = serviceWithoutSelectorsAction;
+
+      window.fetch = mockFetch({ response });
+
+      await store.dispatch(action.run());
+      actions = store.getActions();
+
+      expect(actions).toContainEqual(action.resolve(response));
+    });
+
+    it("Rejects when the request fails", async () => {
       let actions;
       const error = "foo";
-      const action = serviceAction;
+      const action = serviceWithoutSelectorsAction;
 
       window.fetch = mockFetch({ error });
 
@@ -117,22 +133,48 @@ describe("Middleware", () => {
       expect(actions).toContainEqual(action.reject(new Error(error)));
     });
 
-    it("Transforms the response with a selector", async () => {
+    it("Transforms the response with a selector onResponse", async () => {
       let actions;
       const response = { value: "foo" };
-      const action = serviceWithSelectorAction;
+      const action = serviceAction;
 
       window.fetch = mockFetch({ response });
 
       await store.dispatch(action.run());
       actions = store.getActions();
 
-      expect(actions.length).toEqual(3);
-      expect(actions).toContainEqual(action.run());
-      expect(actions).toContainEqual(action.start());
       expect(actions).toContainEqual(
-        action.resolve(services[action.TYPE].selector(response))
+        action.resolve(services[action.TYPE].onResponse(response))
       );
+    });
+
+    it("Transforms the response with a selector onError", async () => {
+      let actions;
+      const error = "foo";
+      const action = serviceAction;
+
+      window.fetch = mockFetch({ error });
+
+      await store.dispatch(action.run());
+      actions = store.getActions();
+
+      expect(actions).toContainEqual(
+        action.reject(services[action.TYPE].onError(error))
+      );
+    });
+
+    it("Transforms the request with a selector onBeforeRequest", async () => {
+      const response = "foo";
+      const action = serviceAction;
+
+      window.fetch = mockFetch({ response });
+
+      await store.dispatch(action.run());
+
+      expect(window.fetch).toHaveBeenCalledWith(services[action.TYPE].uri, {
+        foo: "bar",
+        method: "GET"
+      });
     });
 
     it("Doesn't dispatch a STARTED action if start is false", async () => {
@@ -146,7 +188,6 @@ describe("Middleware", () => {
       actions = store.getActions();
 
       expect(actions.length).toEqual(2);
-      expect(actions).toContainEqual(action.run());
       expect(actions).not.toContainEqual(action.start());
       expect(actions).toContainEqual(action.resolve(response));
     });

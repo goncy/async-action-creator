@@ -205,20 +205,6 @@
     var payload = _ref4.payload;
     if (payload) return payload;else return undefined;
   };
-  /**
-   * Calls a param with data if it's a function
-   * @param {function} param
-   * @param {any} data
-   * @return {any} data
-   */
-
-  var hydrate = function hydrate(param) {
-    for (var _len = arguments.length, data = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      data[_key - 1] = arguments[_key];
-    }
-
-    return typeof param === "function" ? param.apply(void 0, data) : param;
-  };
 
   /**
    * Creates the action creator reducer
@@ -259,18 +245,23 @@
           next(action);
 
           if (match) {
-            var uri = match.uri,
-                method = match.method,
-                selector = match.selector,
+            var method = match.method,
                 _action = match.action,
+                onResponse = match.onResponse,
+                onError = match.onError,
+                onBeforeRequest = match.onBeforeRequest,
+                _uri = match.uri,
                 _match$options = match.options,
-                options = _match$options === void 0 ? {} : _match$options,
+                _options = _match$options === void 0 ? {} : _match$options,
                 _match$start = match.start,
                 start = _match$start === void 0 ? true : _match$start;
+
             var state = store.getState();
+            var uri = typeof _uri === "function" ? _uri(payload, state) : _uri;
+            var options = onBeforeRequest ? onBeforeRequest(_options, state) : _options;
             if (!_action) throw new Error("The matched service doesn't receive an 'action' property");
             start && store.dispatch(_action.start());
-            return fetch(hydrate(uri, payload, state), _objectSpread({}, options, {
+            return fetch(uri, _objectSpread({}, options, {
               method: method
             })).then(function (response) {
               if (response.status >= 200 && response.status < 300) {
@@ -283,11 +274,13 @@
             }).then(function (response) {
               return response.json();
             }).then(function (data) {
-              return selector ? selector(data, state) : data;
+              return onResponse ? onResponse(data, state) : data;
             }).then(function (data) {
               return store.dispatch(_action.resolve(data));
             }).catch(function (error) {
-              return store.dispatch(_action.reject(error));
+              return Promise.resolve(onError ? onError(error, state) : error).then(function (error) {
+                return store.dispatch(_action.reject(error));
+              });
             });
           }
         };

@@ -28,7 +28,12 @@ export default {
     action: myAction,
     uri: "https://api.chucknorris.io/jokes/random",
     method: "GET",
-    selector: response => response.value,
+    onResponse: response => response.value,
+    onError: error => error.message,
+    onBeforeRequest: options => ({
+      ...options,
+      'content-type': 'text'
+    })
   },
 };
 
