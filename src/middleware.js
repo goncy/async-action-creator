@@ -27,7 +27,6 @@ const middleware = services => store => next => action => {
       action,
       onResolve,
       onReject,
-      onBeforeRequest,
       uri: _uri,
       options: _options = {},
       start = true
@@ -35,9 +34,8 @@ const middleware = services => store => next => action => {
     const state = store.getState();
 
     const uri = typeof _uri === "function" ? _uri(payload, state) : _uri;
-    const options = onBeforeRequest
-      ? onBeforeRequest(_options, state)
-      : _options;
+    const options =
+      typeof _options === "function" ? _options(payload, state) : _options;
 
     if (!action)
       throw new Error(

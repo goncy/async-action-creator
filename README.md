@@ -30,7 +30,7 @@ export default {
     method: "GET",
     onResolve: response => response.value,
     onReject: error => error.message,
-    onBeforeRequest: options => ({
+    options: options => ({
       ...options,
       'content-type': 'text'
     })

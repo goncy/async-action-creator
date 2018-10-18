@@ -44,7 +44,7 @@ describe("Middleware", () => {
       method: "GET",
       onResolve: response => response.value,
       onReject: error => error.statusText,
-      onBeforeRequest: options => ({ ...options, foo: "bar" })
+      options: options => ({ ...options, foo: "bar" })
     }
   };
   const store = configureMockStore([middleware(services)])({});
@@ -185,7 +185,7 @@ describe("Middleware", () => {
       );
     });
 
-    it("Transforms the request with a selector onBeforeRequest", async () => {
+    it("Transforms the request with a selector options", async () => {
       const payload = { id: 1 };
       const response = "foo";
       const action = serviceAction;
