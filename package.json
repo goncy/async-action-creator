@@ -1,6 +1,6 @@
 {
   "name": "async-action-creator",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Async actions with steroids creator for Redux or whatever you want",
   "main": "dist/async-action-creator.min.js",
   "repository": {
