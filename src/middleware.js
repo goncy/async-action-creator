@@ -25,8 +25,8 @@ const middleware = services => store => next => action => {
     const {
       method,
       action,
-      onResponse,
-      onError,
+      onResolve,
+      onReject,
       onBeforeRequest,
       uri: _uri,
       options: _options = {},
@@ -58,10 +58,10 @@ const middleware = services => store => next => action => {
         throw error;
       })
       .then(response => response.json())
-      .then(data => (onResponse ? onResponse(data, state) : data))
+      .then(data => (onResolve ? onResolve(data, state) : data))
       .then(data => store.dispatch(action.resolve(data)))
       .catch(error =>
-        Promise.resolve(onError ? onError(error, state) : error).then(error =>
+        Promise.resolve(onReject ? onReject(error, state) : error).then(error =>
           store.dispatch(action.reject(error))
         )
       );

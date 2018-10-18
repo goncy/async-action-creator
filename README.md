@@ -28,8 +28,8 @@ export default {
     action: myAction,
     uri: "https://api.chucknorris.io/jokes/random",
     method: "GET",
-    onResponse: response => response.value,
-    onError: error => error.message,
+    onResolve: response => response.value,
+    onReject: error => error.message,
     onBeforeRequest: options => ({
       ...options,
       'content-type': 'text'

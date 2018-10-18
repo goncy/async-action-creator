@@ -42,8 +42,8 @@ describe("Middleware", () => {
       action: serviceAction,
       uri: ({ id = 1 }) => "http://an.api.com/" + id,
       method: "GET",
-      onResponse: response => response.value,
-      onError: error => error.statusText,
+      onResolve: response => response.value,
+      onReject: error => error.statusText,
       onBeforeRequest: options => ({ ...options, foo: "bar" })
     }
   };
@@ -153,7 +153,7 @@ describe("Middleware", () => {
       expect(actions).toContainEqual(action.reject(new Error(error)));
     });
 
-    it("Transforms the response with a selector onResponse", async () => {
+    it("Transforms the response with a selector onResolve", async () => {
       let actions;
       const payload = { id: 1 };
       const response = { value: "foo" };
@@ -165,11 +165,11 @@ describe("Middleware", () => {
       actions = store.getActions();
 
       expect(actions).toContainEqual(
-        action.resolve(services[action.TYPE].onResponse(response))
+        action.resolve(services[action.TYPE].onResolve(response))
       );
     });
 
-    it("Transforms the response with a selector onError", async () => {
+    it("Transforms the response with a selector onReject", async () => {
       let actions;
       const payload = { id: 1 };
       const error = "foo";
@@ -181,7 +181,7 @@ describe("Middleware", () => {
       actions = store.getActions();
 
       expect(actions).toContainEqual(
-        action.reject(services[action.TYPE].onError(error))
+        action.reject(services[action.TYPE].onReject(error))
       );
     });
 

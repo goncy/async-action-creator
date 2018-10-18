@@ -241,8 +241,8 @@ var middleware = function middleware(services) {
         if (match) {
           var method = match.method,
               _action = match.action,
-              onResponse = match.onResponse,
-              onError = match.onError,
+              onResolve = match.onResolve,
+              onReject = match.onReject,
               onBeforeRequest = match.onBeforeRequest,
               _uri = match.uri,
               _match$options = match.options,
@@ -268,11 +268,11 @@ var middleware = function middleware(services) {
           }).then(function (response) {
             return response.json();
           }).then(function (data) {
-            return onResponse ? onResponse(data, state) : data;
+            return onResolve ? onResolve(data, state) : data;
           }).then(function (data) {
             return store.dispatch(_action.resolve(data));
           }).catch(function (error) {
-            return Promise.resolve(onError ? onError(error, state) : error).then(function (error) {
+            return Promise.resolve(onReject ? onReject(error, state) : error).then(function (error) {
               return store.dispatch(_action.reject(error));
             });
           });
