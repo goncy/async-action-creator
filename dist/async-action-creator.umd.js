@@ -249,7 +249,6 @@
                 _action = match.action,
                 onResolve = match.onResolve,
                 onReject = match.onReject,
-                onBeforeRequest = match.onBeforeRequest,
                 _uri = match.uri,
                 _match$options = match.options,
                 _options = _match$options === void 0 ? {} : _match$options,
@@ -258,7 +257,7 @@
 
             var state = store.getState();
             var uri = typeof _uri === "function" ? _uri(payload, state) : _uri;
-            var options = onBeforeRequest ? onBeforeRequest(_options, state) : _options;
+            var options = typeof _options === "function" ? _options(payload, state) : _options;
             if (!_action) throw new Error("The matched service doesn't receive an 'action' property");
             start && store.dispatch(_action.start());
             return fetch(uri, _objectSpread({}, options, {
