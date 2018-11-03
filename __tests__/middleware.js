@@ -135,7 +135,8 @@ describe("Middleware", () => {
         services[action.TYPE].uri({ id: 50 }),
         {
           foo: "bar",
-          method: "GET"
+          method: "GET",
+          id: 50
         }
       );
     });
@@ -198,7 +199,8 @@ describe("Middleware", () => {
         services[action.TYPE].uri(payload),
         {
           foo: "bar",
-          method: "GET"
+          method: "GET",
+          id: 1
         }
       );
     });
