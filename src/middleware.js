@@ -1,4 +1,4 @@
-const middleware = (services, options = {}) => store => next => action => {
+const middleware = (services, preferences = {}) => store => next => action => {
   if (!services)
     throw new Error(`No services were passed to the async-action-creator middleware, you have to pass an object like:
       {
@@ -18,7 +18,7 @@ const middleware = (services, options = {}) => store => next => action => {
 
   const { type, payload } = action;
   const match = services[type];
-  const httpClient = options.httpClient || fetch;
+  const httpClient = preferences.httpClient || fetch;
 
   next(action);
 

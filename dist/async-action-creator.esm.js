@@ -228,7 +228,7 @@ var reducer = function reducer() {
 };
 
 var middleware = function middleware(services) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var preferences = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   return function (store) {
     return function (next) {
       return function (action) {
@@ -237,7 +237,7 @@ var middleware = function middleware(services) {
         var type = action.type,
             payload = action.payload;
         var match = services[type];
-        var httpClient = options.httpClient || fetch;
+        var httpClient = preferences.httpClient || fetch;
         next(action);
 
         if (match) {
@@ -253,12 +253,10 @@ var middleware = function middleware(services) {
 
           var state = store.getState();
           var uri = typeof _uri === "function" ? _uri(payload, state) : _uri;
-
-          var _options2 = typeof _options === "function" ? _options(payload, state) : _options;
-
+          var options = typeof _options === "function" ? _options(payload, state) : _options;
           if (!_action) throw new Error("The matched service doesn't receive an 'action' property");
           start && store.dispatch(_action.start());
-          return httpClient(uri, _objectSpread({}, _options2, {
+          return httpClient(uri, _objectSpread({}, options, {
             method: method
           })).then(function (response) {
             if (response.status >= 200 && response.status < 300) {
